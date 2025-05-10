@@ -16,7 +16,6 @@ namespace TcpChatClient.Views
             DataContext = _viewModel;
         }
 
-        // PasswordBox 수동 바인딩 처리
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
             _viewModel.Password = ((PasswordBox)sender).Password;

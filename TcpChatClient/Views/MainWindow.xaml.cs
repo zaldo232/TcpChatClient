@@ -13,5 +13,17 @@ namespace TcpChatClient.Views
 
         // 디자이너용 기본 생성자
         public MainWindow() : this("디자이너") { }
+        private void ShowAllUsers_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel vm)
+                vm.SelectedFilter = "전체";
+        }
+
+        private void ShowOnlineUsers_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel vm)
+                vm.SelectedFilter = "접속중";
+        }
+
     }
 }

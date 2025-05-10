@@ -12,7 +12,7 @@ namespace TcpChatClient.ViewModels
     public class LoginViewModel : INotifyPropertyChanged
     {
         public string Username { get; set; }
-        public string Password { private get; set; } // PasswordBox 처리 따로 함
+        public string Password { private get; set; }
 
         public ICommand LoginCommand { get; }
         public ICommand OpenRegisterCommand { get; }
@@ -49,7 +49,7 @@ namespace TcpChatClient.ViewModels
 
         public Action CloseWindow { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }

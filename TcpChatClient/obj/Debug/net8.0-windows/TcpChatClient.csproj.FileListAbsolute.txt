@@ -6,7 +6,6 @@ C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\bin\Debug\net8.0-win
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\bin\Debug\net8.0-windows\TcpChatClient.dll
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\bin\Debug\net8.0-windows\TcpChatClient.pdb
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\GeneratedInternalTypeHelper.g.cs
-C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient_MarkupCompile.lref
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient.g.resources
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient.AssemblyInfoInputs.cache
@@ -72,3 +71,6 @@ C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-win
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\Views\RegisterWindow.g.cs
 C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\Views\MainWindow.baml
+C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient.sourcelink.json
+C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\TcpChatClient_MarkupCompile.lref
+C:\Users\zaldo\Documents\GitHub\TcpChatClient\TcpChatClient\obj\Debug\net8.0-windows\App.baml

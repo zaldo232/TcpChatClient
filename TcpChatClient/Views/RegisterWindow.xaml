@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="회원가입" Height="270" Width="300"
         WindowStartupLocation="CenterScreen">
-    
+
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,12 +19,12 @@
 
         <StackPanel Grid.Row="1" Margin="0,0,0,10">
             <Label Content="비밀번호"/>
-            <PasswordBox x:Name="pwdBox" PasswordChanged="PasswordBox_PasswordChanged"/>
+            <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
         </StackPanel>
 
         <StackPanel Grid.Row="2" Margin="0,0,0,10">
             <Label Content="비밀번호 확인"/>
-            <PasswordBox x:Name="confirmBox" PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
+            <PasswordBox PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
         </StackPanel>
 
         <Button Grid.Row="3" Content="가입하기" Width="100" Height="30"

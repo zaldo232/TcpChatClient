@@ -3,20 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\registerwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -27,20 +23,16 @@
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\registerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\loginwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\loginwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -51,16 +43,36 @@
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\converters\\booltobrushconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\converters\\booltobrushconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\converters\\booltoalignmentconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\converters\\booltoalignmentconverter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\chatpacket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\relaycommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\registerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\viewmodels\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\chatmessage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\models\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\models\\clientsocket.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|solutionrelative:tcpchatclient\\views\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5B05E183-0625-4C9C-AF29-A65ADDC505C1}|TcpChatClient\\TcpChatClient.csproj|c:\\users\\zaldo\\documents\\github\\tcpchatclient\\tcpchatclient\\assemblyinfo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -74,7 +86,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 15,
           "Children": [
             {
               "$type": "Bookmark",
@@ -82,46 +94,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 15,
+              "Title": "RegisterWindow.g.cs",
+              "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs",
+              "RelativeDocumentMoniker": "TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs",
+              "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs",
+              "RelativeToolTip": "TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAvwCoAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T12:53:56.568Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "BoolToBrushConverter.cs",
+              "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Converters\\BoolToBrushConverter.cs",
+              "RelativeDocumentMoniker": "TcpChatClient\\Converters\\BoolToBrushConverter.cs",
+              "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Converters\\BoolToBrushConverter.cs",
+              "RelativeToolTip": "TcpChatClient\\Converters\\BoolToBrushConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T20:03:15.612Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "BoolToAlignmentConverter.cs",
+              "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Converters\\BoolToAlignmentConverter.cs",
+              "RelativeDocumentMoniker": "TcpChatClient\\Converters\\BoolToAlignmentConverter.cs",
+              "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Converters\\BoolToAlignmentConverter.cs",
+              "RelativeToolTip": "TcpChatClient\\Converters\\BoolToAlignmentConverter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-09T20:02:50.746Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
               "Title": "LoginViewModel.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\LoginViewModel.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\ViewModels\\LoginViewModel.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\LoginViewModel.cs",
               "RelativeToolTip": "TcpChatClient\\ViewModels\\LoginViewModel.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAAUwDgAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAC0AAAAAAAAAAADwvzgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T17:53:57.454Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 1,
               "Title": "RegisterViewModel.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\RegisterViewModel.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\ViewModels\\RegisterViewModel.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\RegisterViewModel.cs",
               "RelativeToolTip": "TcpChatClient\\ViewModels\\RegisterViewModel.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAAQwEEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACsAAAAAAAAAAAAmwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T17:53:34.181Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "RegisterWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\RegisterWindow.xaml.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\RegisterWindow.xaml.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\RegisterWindow.xaml.cs",
               "RelativeToolTip": "TcpChatClient\\Views\\RegisterWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T17:48:25.719Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 4,
               "Title": "RegisterWindow.xaml",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\RegisterWindow.xaml",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\RegisterWindow.xaml",
@@ -133,7 +184,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 9,
               "Title": "App.xaml",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\App.xaml",
               "RelativeDocumentMoniker": "TcpChatClient\\App.xaml",
@@ -145,7 +196,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "App.xaml.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\App.xaml.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\App.xaml.cs",
@@ -158,7 +209,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "AssemblyInfo.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\AssemblyInfo.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\AssemblyInfo.cs",
@@ -171,20 +222,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 5,
               "Title": "LoginWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\LoginWindow.xaml.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\LoginWindow.xaml.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\LoginWindow.xaml.cs",
               "RelativeToolTip": "TcpChatClient\\Views\\LoginWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T17:28:49.131Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 6,
               "Title": "LoginWindow.xaml",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\LoginWindow.xaml",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\LoginWindow.xaml",
@@ -196,72 +247,72 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "ChatPacket.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ChatPacket.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Models\\ChatPacket.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ChatPacket.cs",
               "RelativeToolTip": "TcpChatClient\\Models\\ChatPacket.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T17:05:19.55Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "RelayCommand.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\RelayCommand.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\ViewModels\\RelayCommand.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\RelayCommand.cs",
               "RelativeToolTip": "TcpChatClient\\ViewModels\\RelayCommand.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:49:20.766Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\MainViewModel.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\ViewModels\\MainViewModel.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\MainViewModel.cs",
               "RelativeToolTip": "TcpChatClient\\ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAAFsAAAAAAAAAAAAiwH0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAMIAAAAAAAAAAAAYwMUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:49:01.33Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 16,
               "Title": "ClientSocket.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ClientSocket.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Models\\ClientSocket.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ClientSocket.cs",
               "RelativeToolTip": "TcpChatClient\\Models\\ClientSocket.cs",
-              "ViewState": "AgIAAC4AAAAAAAAAAAAzwDsAAABIAAAAAAAAAA==",
+              "ViewState": "AgIAAFAAAAAAAAAAAADwv2QAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:48:49.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 2,
               "Title": "ChatMessage.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ChatMessage.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Models\\ChatMessage.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Models\\ChatMessage.cs",
               "RelativeToolTip": "TcpChatClient\\Models\\ChatMessage.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:48:38.879Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\MainWindow.xaml",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\MainWindow.xaml",
@@ -273,13 +324,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 17,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "TcpChatClient\\Views\\MainWindow.xaml.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\MainWindow.xaml.cs",
               "RelativeToolTip": "TcpChatClient\\Views\\MainWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:46:30.31Z",
               "EditorCaption": ""

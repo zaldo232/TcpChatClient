@@ -1,4 +1,9 @@
 ﻿<Application x:Class="TcpChatClient.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TcpChatClient.Converters">
+    <Application.Resources>
+        <local:BoolToAlignmentConverter x:Key="BoolToAlign"/>
+        <local:BoolToBrushConverter x:Key="BoolToBrush"/>
+    </Application.Resources>
 </Application>

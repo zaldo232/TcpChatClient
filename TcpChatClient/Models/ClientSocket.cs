@@ -22,33 +22,53 @@ namespace TcpChatClient.Models
             await _client.ConnectAsync(ip, port);
             _stream = _client.GetStream();
             StartReceiveLoop();
+
+            await SendPacketAsync(new ChatPacket
+            {
+                Type = "login",
+                Sender = Nickname,
+                Content = $"{Nickname} 접속"
+            });
         }
 
-        public async Task SendMessageAsync(string message)
+        public async Task SendMessageAsync(string message, string receiver)
         {
             var packet = new ChatPacket
             {
                 Type = "message",
                 Sender = Nickname,
+                Receiver = receiver,
                 Content = message
             };
             await SendPacketAsync(packet);
         }
 
-        public async Task SendFileAsync(string filePath)
+        public async Task SendFileAsync(string filePath, string receiver)
         {
             var bytes = File.ReadAllBytes(filePath);
             var packet = new ChatPacket
             {
                 Type = "file",
                 Sender = Nickname,
+                Receiver = receiver,
                 FileName = Path.GetFileName(filePath),
                 Content = Convert.ToBase64String(bytes)
             };
             await SendPacketAsync(packet);
         }
 
-        private async Task SendPacketAsync(ChatPacket packet)
+        public async Task MarkMessagesAsReadAsync(string withUser)
+        {
+            var packet = new ChatPacket
+            {
+                Type = "mark_read",
+                Sender = Nickname,
+                Receiver = withUser
+            };
+            await SendPacketAsync(packet);
+        }
+
+        public async Task SendPacketAsync(ChatPacket packet)
         {
             var json = JsonSerializer.Serialize(packet);
             var data = Encoding.UTF8.GetBytes(json + "\n");
@@ -58,7 +78,6 @@ namespace TcpChatClient.Models
         private async void StartReceiveLoop()
         {
             using var reader = new StreamReader(_stream, Encoding.UTF8);
-
             while (true)
             {
                 try
@@ -72,11 +91,10 @@ namespace TcpChatClient.Models
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"수신 오류: {ex.Message}");
+                    Console.WriteLine($"[수신 오류] {ex.Message}");
                     break;
                 }
             }
         }
-
     }
 }
