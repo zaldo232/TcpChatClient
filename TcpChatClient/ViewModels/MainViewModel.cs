@@ -72,10 +72,6 @@ namespace TcpChatClient.ViewModels
                 _selectedFilter = value;
                 OnPropertyChanged();
                 UpdateFilteredUserList();
-
-                // ✅ 자동 선택 및 대화 로딩
-                if (FilteredUserList.Any())
-                    SelectedUser = FilteredUserList.First();
             }
         }
 
@@ -136,13 +132,20 @@ namespace TcpChatClient.ViewModels
                     if (packet.Type == "allusers")
                     {
                         AllUsers.Clear();
-                        foreach (var name in packet.Content.Split(','))
-                            AllUsers.Add(name);
-                        UpdateFilteredUserList();
+                        UnreadCounts.Clear(); // ✅ 반드시 초기화 후 다시 세팅
 
-                        // ✅ 자동 선택 초기화
-                        if (FilteredUserList.Any() && string.IsNullOrEmpty(_selectedUser))
-                            SelectedUser = FilteredUserList.First();
+                        foreach (var raw in packet.Content.Split(','))
+                        {
+                            var parts = raw.Split('(');
+                            var name = parts[0].Trim();
+
+                            AllUsers.Add(name);
+
+                            if (parts.Length > 1 && int.TryParse(parts[1].TrimEnd(')', ' '), out int count))
+                                UnreadCounts[name] = count;
+                        }
+
+                        UpdateFilteredUserList();
                         return;
                     }
 
@@ -205,7 +208,7 @@ namespace TcpChatClient.ViewModels
 
             foreach (var user in source)
             {
-                var cleanName = user.Split('(')[0].Trim();  // 숫자 제거
+                var cleanName = user.Split('(')[0].Trim();
                 if (cleanName == Nickname) continue;
 
                 if (UnreadCounts.TryGetValue(cleanName, out int count) && count > 0)
@@ -213,10 +216,7 @@ namespace TcpChatClient.ViewModels
                 else
                     FilteredUserList.Add(cleanName);
             }
-
-            // 선택된 유저 강제 재설정 (숫자 없앤 상태로)
         }
-
 
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string name = null) =>

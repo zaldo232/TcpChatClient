@@ -102,8 +102,7 @@
               "RelativeToolTip": "TcpChatClient\\obj\\Debug\\net8.0-windows\\Views\\RegisterWindow.g.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAvwCoAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-10T12:53:56.568Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-10T12:53:56.568Z"
             },
             {
               "$type": "Document",
@@ -115,8 +114,7 @@
               "RelativeToolTip": "TcpChatClient\\Converters\\BoolToBrushConverter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T20:03:15.612Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-09T20:03:15.612Z"
             },
             {
               "$type": "Document",
@@ -128,8 +126,7 @@
               "RelativeToolTip": "TcpChatClient\\Converters\\BoolToAlignmentConverter.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T20:02:50.746Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-09T20:02:50.746Z"
             },
             {
               "$type": "Document",
@@ -141,8 +138,7 @@
               "RelativeToolTip": "TcpChatClient\\ViewModels\\LoginViewModel.cs",
               "ViewState": "AgIAAC0AAAAAAAAAAADwvzgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:53:57.454Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:53:57.454Z"
             },
             {
               "$type": "Document",
@@ -154,8 +150,7 @@
               "RelativeToolTip": "TcpChatClient\\ViewModels\\RegisterViewModel.cs",
               "ViewState": "AgIAACsAAAAAAAAAAAAmwEEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:53:34.181Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:53:34.181Z"
             },
             {
               "$type": "Document",
@@ -167,8 +162,7 @@
               "RelativeToolTip": "TcpChatClient\\Views\\RegisterWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:48:25.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:48:25.719Z"
             },
             {
               "$type": "Document",
@@ -179,8 +173,7 @@
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\RegisterWindow.xaml",
               "RelativeToolTip": "TcpChatClient\\Views\\RegisterWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-08T17:48:14.908Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:48:14.908Z"
             },
             {
               "$type": "Document",
@@ -191,8 +184,7 @@
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\App.xaml",
               "RelativeToolTip": "TcpChatClient\\App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-08T17:35:52.899Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:35:52.899Z"
             },
             {
               "$type": "Document",
@@ -204,8 +196,7 @@
               "RelativeToolTip": "TcpChatClient\\App.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:36:01.244Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:36:01.244Z"
             },
             {
               "$type": "Document",
@@ -217,8 +208,7 @@
               "RelativeToolTip": "TcpChatClient\\AssemblyInfo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:35:52.432Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:35:52.432Z"
             },
             {
               "$type": "Document",
@@ -230,8 +220,7 @@
               "RelativeToolTip": "TcpChatClient\\Views\\LoginWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:28:49.131Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:28:49.131Z"
             },
             {
               "$type": "Document",
@@ -242,8 +231,7 @@
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\LoginWindow.xaml",
               "RelativeToolTip": "TcpChatClient\\Views\\LoginWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-08T17:28:29.248Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:28:29.248Z"
             },
             {
               "$type": "Document",
@@ -255,8 +243,7 @@
               "RelativeToolTip": "TcpChatClient\\Models\\ChatPacket.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T17:05:19.55Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T17:05:19.55Z"
             },
             {
               "$type": "Document",
@@ -268,8 +255,7 @@
               "RelativeToolTip": "TcpChatClient\\ViewModels\\RelayCommand.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T16:49:20.766Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T16:49:20.766Z"
             },
             {
               "$type": "Document",
@@ -279,7 +265,7 @@
               "RelativeDocumentMoniker": "TcpChatClient\\ViewModels\\MainViewModel.cs",
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\ViewModels\\MainViewModel.cs",
               "RelativeToolTip": "TcpChatClient\\ViewModels\\MainViewModel.cs",
-              "ViewState": "AgIAAMIAAAAAAAAAAAAYwMUAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAMoAAAAAAAAAAAA+wOEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-08T16:49:01.33Z",
               "EditorCaption": ""
@@ -294,8 +280,7 @@
               "RelativeToolTip": "TcpChatClient\\Models\\ClientSocket.cs",
               "ViewState": "AgIAAFAAAAAAAAAAAADwv2QAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T16:48:49.101Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T16:48:49.101Z"
             },
             {
               "$type": "Document",
@@ -307,8 +292,7 @@
               "RelativeToolTip": "TcpChatClient\\Models\\ChatMessage.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T16:48:38.879Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T16:48:38.879Z"
             },
             {
               "$type": "Document",
@@ -319,8 +303,7 @@
               "ToolTip": "C:\\Users\\zaldo\\Documents\\GitHub\\TcpChatClient\\TcpChatClient\\Views\\MainWindow.xaml",
               "RelativeToolTip": "TcpChatClient\\Views\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-05-08T16:46:33.167Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T16:46:33.167Z"
             },
             {
               "$type": "Document",
@@ -332,8 +315,7 @@
               "RelativeToolTip": "TcpChatClient\\Views\\MainWindow.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T16:46:30.31Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-08T16:46:30.31Z"
             }
           ]
         }
