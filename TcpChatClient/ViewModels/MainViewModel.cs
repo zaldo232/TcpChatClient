@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -112,6 +113,19 @@ namespace TcpChatClient.ViewModels
                 if (dlg.ShowDialog() == true && !string.IsNullOrEmpty(_selectedUser))
                 {
                     _ = _client.SendFileAsync(dlg.FileName, _selectedUser);
+
+                    var msg = new ChatMessage
+                    {
+                        Sender = Nickname,
+                        Receiver = _selectedUser,
+                        Message = $"[파일] {Path.GetFileName(dlg.FileName)}",
+                        MyName = Nickname,
+                        Timestamp = DateTime.Now,
+                        FileName = Path.GetFileName(dlg.FileName),
+                        Content = dlg.FileName
+                    };
+                    AllMessages.Add(msg);
+                    FilteredMessages.Add(msg);
                 }
             });
 
@@ -132,7 +146,7 @@ namespace TcpChatClient.ViewModels
                     if (packet.Type == "allusers")
                     {
                         AllUsers.Clear();
-                        UnreadCounts.Clear(); // ✅ 반드시 초기화 후 다시 세팅
+                        UnreadCounts.Clear();
 
                         foreach (var raw in packet.Content.Split(','))
                         {
@@ -155,6 +169,7 @@ namespace TcpChatClient.ViewModels
                         if (history != null)
                         {
                             FilteredMessages.Clear();
+
                             foreach (var pkt in history)
                             {
                                 var chat = new ChatMessage
@@ -163,10 +178,28 @@ namespace TcpChatClient.ViewModels
                                     Receiver = pkt.Receiver,
                                     Message = pkt.Type == "file" ? $"[파일] {pkt.FileName}" : pkt.Content,
                                     MyName = Nickname,
-                                    Timestamp = pkt.Timestamp
+                                    Timestamp = pkt.Timestamp,
+                                    FileName = pkt.FileName,
+                                    Content = pkt.Content
                                 };
-                                AllMessages.Add(chat);
-                                FilteredMessages.Add(chat);
+
+                                // 중복 확인 후 AllMessages에만 추가
+                                if (!AllMessages.Any(m =>
+                                    m.Sender == chat.Sender &&
+                                    m.Receiver == chat.Receiver &&
+                                    m.Timestamp == chat.Timestamp &&
+                                    m.FileName == chat.FileName &&
+                                    m.Content == chat.Content))
+                                {
+                                    AllMessages.Add(chat);
+                                }
+
+                                // 조건 만족하면 화면에도 추가
+                                if ((chat.Sender == SelectedUser && chat.Receiver == Nickname) ||
+                                    (chat.Sender == Nickname && chat.Receiver == SelectedUser))
+                                {
+                                    FilteredMessages.Add(chat);
+                                }
                             }
                         }
                         return;
@@ -178,7 +211,9 @@ namespace TcpChatClient.ViewModels
                         Receiver = packet.Receiver,
                         Message = packet.Type == "file" ? $"[파일 수신] {packet.FileName}" : packet.Content,
                         MyName = Nickname,
-                        Timestamp = packet.Timestamp
+                        Timestamp = packet.Timestamp,
+                        FileName = packet.FileName,
+                        Content = packet.Content
                     };
                     AllMessages.Add(msg);
 
@@ -219,7 +254,6 @@ namespace TcpChatClient.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string name = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

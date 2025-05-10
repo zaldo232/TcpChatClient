@@ -45,14 +45,20 @@ namespace TcpChatClient.Models
 
         public async Task SendFileAsync(string filePath, string receiver)
         {
-            var bytes = File.ReadAllBytes(filePath);
+            // 서버에 직접 업로드 (로컬 개발일 경우 그냥 복사)
+            string fileName = Path.GetFileName(filePath);
+            string serverPath = Path.Combine("ChatFiles", $"{Guid.NewGuid()}_{fileName}");
+
+            Directory.CreateDirectory("ChatFiles");
+            File.Copy(filePath, serverPath, overwrite: true);
+
             var packet = new ChatPacket
             {
                 Type = "file",
                 Sender = Nickname,
                 Receiver = receiver,
-                FileName = Path.GetFileName(filePath),
-                Content = Convert.ToBase64String(bytes)
+                FileName = fileName,
+                Content = serverPath // 서버 경로만 전송
             };
             await SendPacketAsync(packet);
         }
