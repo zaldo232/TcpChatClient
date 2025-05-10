@@ -122,12 +122,13 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = DateTime.Now,
                         FileName = Path.GetFileName(dlg.FileName),
-                        Content = dlg.FileName
+                        Content = "" 
                     };
                     AllMessages.Add(msg);
                     FilteredMessages.Add(msg);
                 }
             });
+
 
             _client.PacketReceived += packet =>
             {
