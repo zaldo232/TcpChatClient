@@ -44,7 +44,7 @@ namespace TcpChatClient.Views
             {
                 var dialog = new Microsoft.Win32.SaveFileDialog
                 {
-                    FileName = msg.FileName,
+                    FileName = msg.OriginalFileName,
                     Title = "파일 저장",
                     Filter = "모든 파일 (*.*)|*.*"
                 };
@@ -53,16 +53,22 @@ namespace TcpChatClient.Views
                 {
                     try
                     {
-                        byte[] data = File.ReadAllBytes(msg.Content); // 서버에서 받은 경로를 사용
+                        // 서버 실행 경로 기준으로 조정
+                        string serverBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatFiles");
+                        string fullPath = Path.Combine(serverBasePath, msg.FileName);
+
+                        byte[] data = File.ReadAllBytes(fullPath);
                         File.WriteAllBytes(dialog.FileName, data);
+
                         MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
-                    catch (IOException ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show("파일 읽기 실패: " + ex.Message, "에러", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                 }
             }
         }
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -122,13 +121,12 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = DateTime.Now,
                         FileName = Path.GetFileName(dlg.FileName),
-                        Content = "" 
+                        Content = "" // 서버에서 받을 경로
                     };
                     AllMessages.Add(msg);
                     FilteredMessages.Add(msg);
                 }
             });
-
 
             _client.PacketReceived += packet =>
             {
@@ -170,7 +168,6 @@ namespace TcpChatClient.ViewModels
                         if (history != null)
                         {
                             FilteredMessages.Clear();
-
                             foreach (var pkt in history)
                             {
                                 var chat = new ChatMessage
@@ -184,25 +181,28 @@ namespace TcpChatClient.ViewModels
                                     Content = pkt.Content
                                 };
 
-                                // 중복 확인 후 AllMessages에만 추가
                                 if (!AllMessages.Any(m =>
                                     m.Sender == chat.Sender &&
                                     m.Receiver == chat.Receiver &&
                                     m.Timestamp == chat.Timestamp &&
-                                    m.FileName == chat.FileName &&
-                                    m.Content == chat.Content))
+                                    m.FileName == chat.FileName))
                                 {
                                     AllMessages.Add(chat);
                                 }
 
-                                // 조건 만족하면 화면에도 추가
-                                if ((chat.Sender == SelectedUser && chat.Receiver == Nickname) ||
-                                    (chat.Sender == Nickname && chat.Receiver == SelectedUser))
+                                if ((chat.Sender == _selectedUser && chat.Receiver == Nickname) ||
+                                    (chat.Sender == Nickname && chat.Receiver == _selectedUser))
                                 {
                                     FilteredMessages.Add(chat);
                                 }
                             }
                         }
+                        return;
+                    }
+
+                    if (packet.Type == "download_result")
+                    {
+                        SaveDownloadToFile(packet);
                         return;
                     }
 
@@ -236,10 +236,33 @@ namespace TcpChatClient.ViewModels
             _ = _client.ConnectAsync("127.0.0.1", 9000, Nickname);
         }
 
+        private void SaveDownloadToFile(ChatPacket packet)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = packet.FileName,
+                Title = "파일 저장",
+                Filter = "모든 파일 (*.*)|*.*"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                try
+                {
+                    byte[] data = Convert.FromBase64String(packet.Content);
+                    File.WriteAllBytes(dlg.FileName, data);
+                    MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"파일 저장 실패: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void UpdateFilteredUserList()
         {
             FilteredUserList.Clear();
-
             var source = SelectedFilter == "전체" ? AllUsers : OnlineUsers;
 
             foreach (var user in source)
@@ -255,6 +278,7 @@ namespace TcpChatClient.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private void OnPropertyChanged([CallerMemberName] string name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

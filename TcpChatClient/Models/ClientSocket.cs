@@ -60,6 +60,18 @@ namespace TcpChatClient.Models
             await SendPacketAsync(packet);
         }
 
+        public async Task SendDownloadRequestAsync(string serverPath, string fileName)
+        {
+            var packet = new ChatPacket
+            {
+                Type = "download",
+                Sender = Nickname,
+                Content = serverPath,
+                FileName = fileName
+            };
+            await SendPacketAsync(packet);
+        }
+
         public async Task MarkMessagesAsReadAsync(string withUser)
         {
             var packet = new ChatPacket
