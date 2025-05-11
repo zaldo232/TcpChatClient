@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using TcpChatClient.Models;
 using TcpChatClient.ViewModels;
 
@@ -72,5 +73,38 @@ namespace TcpChatClient.Views
             }
         }
 
+        private void ClearPlaceholder(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox tb && (tb.Text == "유저 검색" || tb.Text == "메시지 검색"))
+            {
+                tb.Text = "";
+                tb.Foreground = Brushes.Black;
+            }
+        }
+
+        private void RestorePlaceholder(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox tb && string.IsNullOrWhiteSpace(tb.Text))
+            {
+                if (tb.Name == "UserSearchBox")
+                    tb.Text = "유저 검색";
+                else if (tb.Name == "MessageSearchBox")
+                    tb.Text = "메시지 검색";
+
+                tb.Foreground = Brushes.Gray;
+            }
+        }
+
+        private void UserSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox tb && DataContext is MainViewModel vm && tb.Text != "유저 검색")
+                vm.UserSearchKeyword = tb.Text;
+        }
+
+        private void MessageSearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is TextBox tb && DataContext is MainViewModel vm && tb.Text != "메시지 검색")
+                vm.MessageSearchKeyword = tb.Text;
+        }
     }
 }

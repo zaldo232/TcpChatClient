@@ -19,6 +19,9 @@ namespace TcpChatClient.ViewModels
         private string _input;
         private string _selectedUser;
         private string _selectedFilter = "접속중";
+        private string _messageSearchKeyword;
+        private string _userSearchKeyword;
+
         public string Nickname { get; set; }
 
         public ObservableCollection<ChatMessage> AllMessages { get; } = new();
@@ -60,7 +63,7 @@ namespace TcpChatClient.ViewModels
                     Receiver = _selectedUser
                 });
 
-                FilteredMessages.Clear();
+                ApplyMessageSearchFilter();
             }
         }
 
@@ -70,6 +73,28 @@ namespace TcpChatClient.ViewModels
             set
             {
                 _selectedFilter = value;
+                OnPropertyChanged();
+                UpdateFilteredUserList();
+            }
+        }
+
+        public string MessageSearchKeyword
+        {
+            get => _messageSearchKeyword;
+            set
+            {
+                _messageSearchKeyword = value;
+                OnPropertyChanged();
+                ApplyMessageSearchFilter();
+            }
+        }
+
+        public string UserSearchKeyword
+        {
+            get => _userSearchKeyword;
+            set
+            {
+                _userSearchKeyword = value;
                 OnPropertyChanged();
                 UpdateFilteredUserList();
             }
@@ -121,7 +146,7 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = DateTime.Now,
                         FileName = Path.GetFileName(dlg.FileName),
-                        Content = "" // 서버 경로 나중에 채워짐
+                        Content = ""
                     };
                     AllMessages.Add(msg);
                     FilteredMessages.Add(msg);
@@ -236,6 +261,22 @@ namespace TcpChatClient.ViewModels
             _ = _client.ConnectAsync("127.0.0.1", 9000, Nickname);
         }
 
+        private void ApplyMessageSearchFilter()
+        {
+            FilteredMessages.Clear();
+            foreach (var msg in AllMessages)
+            {
+                bool matchUser = (msg.Sender == _selectedUser && msg.Receiver == Nickname)
+                              || (msg.Sender == Nickname && msg.Receiver == _selectedUser);
+
+                bool matchKeyword = string.IsNullOrWhiteSpace(MessageSearchKeyword)
+                                 || msg.Message.Contains(MessageSearchKeyword, StringComparison.OrdinalIgnoreCase);
+
+                if (matchUser && matchKeyword)
+                    FilteredMessages.Add(msg);
+            }
+        }
+
         public async Task RequestFileDownload(string serverPath, string fileName)
         {
             await _client.SendDownloadRequestAsync(serverPath, fileName);
@@ -275,16 +316,16 @@ namespace TcpChatClient.ViewModels
                 var cleanName = user.Split('(')[0].Trim();
                 if (cleanName == Nickname) continue;
 
+                if (!string.IsNullOrWhiteSpace(UserSearchKeyword) &&
+                    !cleanName.Contains(UserSearchKeyword, StringComparison.OrdinalIgnoreCase))
+                    continue;
+
                 if (UnreadCounts.TryGetValue(cleanName, out int count) && count > 0)
                     FilteredUserList.Add($"{cleanName} ({count})");
                 else
                     FilteredUserList.Add(cleanName);
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public async Task RequestFileSendAsync(string filePath)
         {
@@ -300,12 +341,15 @@ namespace TcpChatClient.ViewModels
                     MyName = Nickname,
                     Timestamp = DateTime.Now,
                     FileName = Path.GetFileName(filePath),
-                    Content = "" // 서버가 실제 경로로 채워줌
+                    Content = ""
                 };
                 AllMessages.Add(msg);
                 FilteredMessages.Add(msg);
             }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
