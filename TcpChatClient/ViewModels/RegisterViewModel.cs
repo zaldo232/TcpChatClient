@@ -61,5 +61,10 @@ namespace TcpChatClient.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        /*
+        public async Task RequestFileDownload(string serverPath, string fileName)
+        {
+            await _client.SendDownloadRequestAsync(serverPath, fileName);
+        }*/
     }
 }

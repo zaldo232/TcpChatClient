@@ -45,14 +45,29 @@ namespace TcpChatClient.Models
 
         public async Task SendFileAsync(string filePath, string receiver)
         {
-            var bytes = File.ReadAllBytes(filePath);
+            string fileName = Path.GetFileName(filePath);
+            byte[] fileBytes = File.ReadAllBytes(filePath);
+            string base64 = Convert.ToBase64String(fileBytes);
+
             var packet = new ChatPacket
             {
                 Type = "file",
                 Sender = Nickname,
                 Receiver = receiver,
-                FileName = Path.GetFileName(filePath),
-                Content = Convert.ToBase64String(bytes)
+                FileName = fileName,
+                Content = base64
+            };
+            await SendPacketAsync(packet);
+        }
+
+        public async Task SendDownloadRequestAsync(string serverPath, string fileName)
+        {
+            var packet = new ChatPacket
+            {
+                Type = "download",
+                Sender = Nickname,
+                Content = serverPath,
+                FileName = fileName
             };
             await SendPacketAsync(packet);
         }

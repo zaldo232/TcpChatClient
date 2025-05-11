@@ -112,6 +112,19 @@ namespace TcpChatClient.ViewModels
                 if (dlg.ShowDialog() == true && !string.IsNullOrEmpty(_selectedUser))
                 {
                     _ = _client.SendFileAsync(dlg.FileName, _selectedUser);
+
+                    var msg = new ChatMessage
+                    {
+                        Sender = Nickname,
+                        Receiver = _selectedUser,
+                        Message = $"[파일] {Path.GetFileName(dlg.FileName)}",
+                        MyName = Nickname,
+                        Timestamp = DateTime.Now,
+                        FileName = Path.GetFileName(dlg.FileName),
+                        Content = "" // 서버 경로 나중에 채워짐
+                    };
+                    AllMessages.Add(msg);
+                    FilteredMessages.Add(msg);
                 }
             });
 
@@ -132,7 +145,7 @@ namespace TcpChatClient.ViewModels
                     if (packet.Type == "allusers")
                     {
                         AllUsers.Clear();
-                        UnreadCounts.Clear(); // ✅ 반드시 초기화 후 다시 세팅
+                        UnreadCounts.Clear();
 
                         foreach (var raw in packet.Content.Split(','))
                         {
@@ -163,12 +176,33 @@ namespace TcpChatClient.ViewModels
                                     Receiver = pkt.Receiver,
                                     Message = pkt.Type == "file" ? $"[파일] {pkt.FileName}" : pkt.Content,
                                     MyName = Nickname,
-                                    Timestamp = pkt.Timestamp
+                                    Timestamp = pkt.Timestamp,
+                                    FileName = pkt.FileName,
+                                    Content = pkt.Content
                                 };
-                                AllMessages.Add(chat);
-                                FilteredMessages.Add(chat);
+
+                                if (!AllMessages.Any(m =>
+                                    m.Sender == chat.Sender &&
+                                    m.Receiver == chat.Receiver &&
+                                    m.Timestamp == chat.Timestamp &&
+                                    m.FileName == chat.FileName))
+                                {
+                                    AllMessages.Add(chat);
+                                }
+
+                                if ((chat.Sender == _selectedUser && chat.Receiver == Nickname) ||
+                                    (chat.Sender == Nickname && chat.Receiver == _selectedUser))
+                                {
+                                    FilteredMessages.Add(chat);
+                                }
                             }
                         }
+                        return;
+                    }
+
+                    if (packet.Type == "download_result")
+                    {
+                        SaveDownloadToFile(packet);
                         return;
                     }
 
@@ -178,7 +212,9 @@ namespace TcpChatClient.ViewModels
                         Receiver = packet.Receiver,
                         Message = packet.Type == "file" ? $"[파일 수신] {packet.FileName}" : packet.Content,
                         MyName = Nickname,
-                        Timestamp = packet.Timestamp
+                        Timestamp = packet.Timestamp,
+                        FileName = packet.FileName,
+                        Content = packet.Content
                     };
                     AllMessages.Add(msg);
 
@@ -200,10 +236,38 @@ namespace TcpChatClient.ViewModels
             _ = _client.ConnectAsync("127.0.0.1", 9000, Nickname);
         }
 
+        public async Task RequestFileDownload(string serverPath, string fileName)
+        {
+            await _client.SendDownloadRequestAsync(serverPath, fileName);
+        }
+
+        private void SaveDownloadToFile(ChatPacket packet)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = packet.FileName,
+                Title = "파일 저장",
+                Filter = "모든 파일 (*.*)|*.*"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                try
+                {
+                    byte[] data = Convert.FromBase64String(packet.Content);
+                    File.WriteAllBytes(dlg.FileName, data);
+                    MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"파일 저장 실패: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
         private void UpdateFilteredUserList()
         {
             FilteredUserList.Clear();
-
             var source = SelectedFilter == "전체" ? AllUsers : OnlineUsers;
 
             foreach (var user in source)
@@ -219,7 +283,7 @@ namespace TcpChatClient.ViewModels
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string name = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        private void OnPropertyChanged([CallerMemberName] string name = null)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }
