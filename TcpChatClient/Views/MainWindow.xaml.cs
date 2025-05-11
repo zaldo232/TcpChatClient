@@ -47,5 +47,30 @@ namespace TcpChatClient.Views
                 }
             }
         }
+
+        private void InputBox_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+        private void InputBox_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                foreach (var file in files)
+                {
+                    if (DataContext is MainViewModel vm && !string.IsNullOrEmpty(vm.SelectedUser))
+                    {
+                        _ = vm.RequestFileSendAsync(file);
+                    }
+                }
+            }
+        }
+
     }
 }

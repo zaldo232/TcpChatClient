@@ -285,5 +285,27 @@ namespace TcpChatClient.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public async Task RequestFileSendAsync(string filePath)
+        {
+            if (!string.IsNullOrEmpty(filePath) && !string.IsNullOrEmpty(_selectedUser))
+            {
+                await _client.SendFileAsync(filePath, _selectedUser);
+
+                var msg = new ChatMessage
+                {
+                    Sender = Nickname,
+                    Receiver = _selectedUser,
+                    Message = $"[파일] {Path.GetFileName(filePath)}",
+                    MyName = Nickname,
+                    Timestamp = DateTime.Now,
+                    FileName = Path.GetFileName(filePath),
+                    Content = "" // 서버가 실제 경로로 채워줌
+                };
+                AllMessages.Add(msg);
+                FilteredMessages.Add(msg);
+            }
+        }
+
     }
 }
