@@ -19,12 +19,12 @@
                         CornerRadius="12" Padding="10,6"
                         HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
                         MaxWidth="400">
-                    <TextBlock Text="{Binding Display}"
-                               TextWrapping="Wrap"
-                               FontSize="14"
-                               LineStackingStrategy="BlockLineHeight"
-                               LineHeight="18"
-                               Margin="0"/>
+                    <TextBlock Loaded="MessageTextBlock_Loaded"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       LineStackingStrategy="BlockLineHeight"
+                       LineHeight="18"
+                       Margin="0"/>
                 </Border>
             </Grid>
         </DataTemplate>

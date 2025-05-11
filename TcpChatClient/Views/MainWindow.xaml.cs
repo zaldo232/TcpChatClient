@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using TcpChatClient.Models;
 using TcpChatClient.ViewModels;
@@ -106,5 +107,49 @@ namespace TcpChatClient.Views
             if (sender is TextBox tb && DataContext is MainViewModel vm && tb.Text != "메시지 검색")
                 vm.MessageSearchKeyword = tb.Text;
         }
+
+        public static void ApplyHighlightedText(TextBlock target, string fullText, string keyword)
+        {
+            target.Inlines.Clear();
+
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                target.Inlines.Add(fullText);
+                return;
+            }
+
+            int index = 0;
+            int matchIndex;
+            while ((matchIndex = fullText.IndexOf(keyword, index, System.StringComparison.OrdinalIgnoreCase)) != -1)
+            {
+                if (matchIndex > index)
+                {
+                    target.Inlines.Add(new Run(fullText.Substring(index, matchIndex - index)));
+                }
+
+                var highlight = new Run(fullText.Substring(matchIndex, keyword.Length))
+                {
+                    Background = Brushes.Yellow,
+                    FontWeight = FontWeights.Bold
+                };
+                target.Inlines.Add(highlight);
+
+                index = matchIndex + keyword.Length;
+            }
+
+            if (index < fullText.Length)
+            {
+                target.Inlines.Add(new Run(fullText.Substring(index)));
+            }
+        }
+
+        private void MessageTextBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBlock tb && tb.DataContext is ChatMessage msg && DataContext is MainViewModel vm)
+            {
+                ApplyHighlightedText(tb, msg.Display, vm.MessageSearchKeyword);
+            }
+        }
+
     }
 }
