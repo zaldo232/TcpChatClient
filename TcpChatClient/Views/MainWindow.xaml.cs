@@ -1,5 +1,4 @@
 ﻿using System.Collections.Specialized;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using TcpChatClient.Models;
@@ -9,21 +8,21 @@ namespace TcpChatClient.Views
 {
     public partial class MainWindow : Window
     {
+        private MainViewModel _vm;
+
         public MainWindow(string username)
         {
             InitializeComponent();
+            _vm = new MainViewModel(username);
+            DataContext = _vm;
 
-            var vm = new MainViewModel(username);
-            DataContext = vm;
-
-            vm.FilteredMessages.CollectionChanged += (_, e) =>
+            _vm.FilteredMessages.CollectionChanged += (_, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                     scrollViewer.ScrollToEnd();
             };
         }
 
-        // 디자이너용 기본 생성자
         public MainWindow() : this("디자이너") { }
 
         private void ShowAllUsers_Click(object sender, RoutedEventArgs e)
@@ -38,37 +37,15 @@ namespace TcpChatClient.Views
                 vm.SelectedFilter = "접속중";
         }
 
-        private void FileDownload_Click(object sender, RoutedEventArgs e)
+        private async void FileDownload_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is ChatMessage msg)
             {
-                var dialog = new Microsoft.Win32.SaveFileDialog
+                if (msg.MyName != msg.Sender && !string.IsNullOrWhiteSpace(msg.Content))
                 {
-                    FileName = msg.OriginalFileName,
-                    Title = "파일 저장",
-                    Filter = "모든 파일 (*.*)|*.*"
-                };
-
-                if (dialog.ShowDialog() == true)
-                {
-                    try
-                    {
-                        // 서버 실행 경로 기준으로 조정
-                        string serverBasePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ChatFiles");
-                        string fullPath = Path.Combine(serverBasePath, msg.FileName);
-
-                        byte[] data = File.ReadAllBytes(fullPath);
-                        File.WriteAllBytes(dialog.FileName, data);
-
-                        MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("파일 읽기 실패: " + ex.Message, "에러", MessageBoxButton.OK, MessageBoxImage.Error);
-                    }
+                    await _vm.RequestFileDownload(msg.Content, msg.FileName);
                 }
             }
         }
-
     }
 }

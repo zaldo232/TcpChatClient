@@ -11,6 +11,7 @@
     <Window.Resources>
         <conv:BoolToAlignmentConverter x:Key="BoolToAlign"/>
         <conv:BoolToBrushConverter x:Key="BoolToBrush"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
         <DataTemplate x:Key="TextTemplate">
             <Grid Margin="4">
@@ -38,7 +39,8 @@
                             Click="FileDownload_Click"
                             Tag="{Binding}" Background="Transparent" BorderThickness="0"
                             HorizontalAlignment="Left" Foreground="DarkBlue"
-                            Cursor="Hand"/>
+                            Cursor="Hand"
+                            Visibility="{Binding IsFileMessage, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 </Border>
             </Grid>
         </DataTemplate>

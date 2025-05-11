@@ -121,7 +121,7 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = DateTime.Now,
                         FileName = Path.GetFileName(dlg.FileName),
-                        Content = "" // 서버에서 받을 경로
+                        Content = "" // 서버 경로 나중에 채워짐
                     };
                     AllMessages.Add(msg);
                     FilteredMessages.Add(msg);
@@ -234,6 +234,11 @@ namespace TcpChatClient.ViewModels
             };
 
             _ = _client.ConnectAsync("127.0.0.1", 9000, Nickname);
+        }
+
+        public async Task RequestFileDownload(string serverPath, string fileName)
+        {
+            await _client.SendDownloadRequestAsync(serverPath, fileName);
         }
 
         private void SaveDownloadToFile(ChatPacket packet)

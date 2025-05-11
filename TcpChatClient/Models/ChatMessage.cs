@@ -15,6 +15,8 @@ namespace TcpChatClient.Models
         public bool IsMine => Sender == MyName;
         public bool IsFile => !string.IsNullOrEmpty(FileName);
 
+        public bool IsFileMessage => !string.IsNullOrEmpty(FileName);
+
         public string OriginalFileName => FileName?.Split('_').Skip(1).FirstOrDefault() ?? FileName;
 
         public string Display =>
