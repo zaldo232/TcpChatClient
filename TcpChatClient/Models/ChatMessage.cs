@@ -39,7 +39,22 @@ namespace TcpChatClient.Models
             : $"{Message}";
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not ChatMessage other) return false;
+            return Sender == other.Sender &&
+                   Receiver == other.Receiver &&
+                   Timestamp == other.Timestamp &&
+                   FileName == other.FileName &&
+                   Content == other.Content;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Sender, Receiver, Timestamp, FileName, Content);
+        }
+
     }
 }

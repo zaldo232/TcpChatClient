@@ -317,7 +317,8 @@ namespace TcpChatClient.ViewModels
                     FilteredMessages.Add(new ChatDateHeader { Date = dateOnly });
                     lastDate = dateOnly;
                 }
-                FilteredMessages.Add(msg);
+                if (!FilteredMessages.Contains(msg))
+                    FilteredMessages.Add(msg);
             }
         }
 
