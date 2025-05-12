@@ -163,5 +163,17 @@ namespace TcpChatClient.Views
                 ApplyHighlightedText(tb, msg.Display, vm.MessageSearchKeyword);
             }
         }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+
+            // 뷰모델 가져오기
+            if (DataContext is MainViewModel vm)
+            {
+                _ = vm.MarkMessagesAsReadIfVisible(); // 현재 열린 상대에 대해 읽음 처리 강제 호출
+            }
+        }
+
     }
 }
