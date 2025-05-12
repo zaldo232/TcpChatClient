@@ -242,14 +242,21 @@ namespace TcpChatClient.ViewModels
 
                     if (packet.Type == "read_notify")
                     {
-                        foreach (var msg in AllMessages.Where(m =>
-                            m.Receiver == packet.Receiver &&
-                            m.Sender == packet.Sender))
+                        bool changed = false;
+
+                        foreach (var msg in AllMessages.Where(m => m.Sender == packet.Receiver && m.Receiver == packet.Sender &&  !m.IsRead))
                         {
                             msg.IsRead = true;
+                            changed = true;
+                        }
+
+                        if (changed)
+                        {
+                            ApplyMessageSearchFilter();
                         }
                         return;
                     }
+
 
                     if (packet.Type == "download_result")
                     {
@@ -310,7 +317,8 @@ namespace TcpChatClient.ViewModels
                     FilteredMessages.Add(new ChatDateHeader { Date = dateOnly });
                     lastDate = dateOnly;
                 }
-                FilteredMessages.Add(msg);
+                if (!FilteredMessages.Contains(msg))
+                    FilteredMessages.Add(msg);
             }
         }
 
