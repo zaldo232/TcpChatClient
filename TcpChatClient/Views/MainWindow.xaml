@@ -13,22 +13,65 @@
         <conv:BoolToBrushConverter x:Key="BoolToBrush"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-        <DataTemplate x:Key="TextTemplate">
-            <Grid Margin="4">
-                <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
-                        CornerRadius="12" Padding="10,6"
-                        HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
-                        MaxWidth="400">
-                    <TextBlock Loaded="MessageTextBlock_Loaded"
-                       TextWrapping="Wrap"
-                       FontSize="14"
-                       LineStackingStrategy="BlockLineHeight"
-                       LineHeight="18"
-                       Margin="0"/>
-                </Border>
-            </Grid>
+        <!-- 날짜 템플릿 -->
+        <DataTemplate x:Key="DateTemplate">
+            <TextBlock Text="{Binding Display}"
+                       FontWeight="Bold"
+                       Foreground="Gray"
+                       HorizontalAlignment="Center"
+                       Margin="0,12,0,4"/>
         </DataTemplate>
 
+        <!-- 일반 메시지 템플릿 -->
+        <DataTemplate x:Key="TextTemplate">
+            <StackPanel Margin="4"
+                        HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                        Orientation="Vertical">
+
+                <!-- 상대방 이름만 표시 -->
+                <TextBlock Text="{Binding Sender}"
+                           FontSize="11"
+                           Foreground="Gray"
+                           Margin="8,0,0,2">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMine}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
+                        CornerRadius="12"
+                        Padding="10,6"
+                        MaxWidth="400"
+                        HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}">
+
+                    <TextBlock Loaded="MessageTextBlock_Loaded"
+                               TextWrapping="Wrap"
+                               FontSize="14"
+                               LineStackingStrategy="BlockLineHeight"
+                               LineHeight="18"
+                               Margin="0"
+                               TextAlignment="Left"
+                               HorizontalAlignment="Left"
+                               TextTrimming="None" />
+                </Border>
+
+
+                <TextBlock Text="{Binding Timestamp, StringFormat=tt h:mm}"
+                           FontSize="10"
+                           Foreground="Gray"
+                           HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                           Margin="6,2,6,0"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <!-- 파일 메시지 템플릿 -->
         <DataTemplate x:Key="FileTemplate">
             <Grid Margin="4">
                 <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
@@ -45,9 +88,11 @@
             </Grid>
         </DataTemplate>
 
-        <helpers:FileMessageTemplateSelector x:Key="MessageTemplateSelector"
-                                             TextTemplate="{StaticResource TextTemplate}"
-                                             FileTemplate="{StaticResource FileTemplate}"/>
+        <!-- 템플릿 선택자 -->
+        <helpers:MessageTemplateSelector x:Key="MessageTemplateSelector"
+                                         TextTemplate="{StaticResource TextTemplate}"
+                                         FileTemplate="{StaticResource FileTemplate}"
+                                         DateTemplate="{StaticResource DateTemplate}"/>
     </Window.Resources>
 
     <Grid Margin="10">
@@ -57,11 +102,8 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- 메시지 검색창 -->
             <RowDefinition Height="*"/>
-            <!-- 채팅창 -->
             <RowDefinition Height="Auto"/>
-            <!-- 입력창 -->
         </Grid.RowDefinitions>
 
         <!-- 유저 목록 -->
@@ -99,7 +141,7 @@
                  LostFocus="RestorePlaceholder"
                  Margin="0,0,0,10" Height="26" FontSize="13"/>
 
-        <!-- 채팅 메시지 -->
+        <!-- 채팅 메시지 목록 -->
         <ScrollViewer x:Name="scrollViewer" Grid.Column="1" Grid.Row="1"
                       VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
             <ItemsControl ItemsSource="{Binding FilteredMessages}"

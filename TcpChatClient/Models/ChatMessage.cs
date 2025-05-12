@@ -21,8 +21,8 @@ namespace TcpChatClient.Models
 
         public string Display =>
             IsFile
-                ? $"{Sender}: [파일] {OriginalFileName}" // 깔끔하게 보이게 수정
-                : $"{Sender}: {Message}";
+                ? $"[파일] {OriginalFileName}" // 깔끔하게 보이게 수정
+                : $"{Message}";
     }
 
 

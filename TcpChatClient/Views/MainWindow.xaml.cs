@@ -110,8 +110,6 @@ namespace TcpChatClient.Views
 
         public static void ApplyHighlightedText(TextBlock target, string fullText, string keyword)
         {
-            target.Inlines.Clear();
-
             if (string.IsNullOrWhiteSpace(keyword))
             {
                 target.Inlines.Add(fullText);
@@ -147,6 +145,7 @@ namespace TcpChatClient.Views
         {
             if (sender is TextBlock tb && tb.DataContext is ChatMessage msg && DataContext is MainViewModel vm)
             {
+                tb.Inlines.Clear();
                 ApplyHighlightedText(tb, msg.Display, vm.MessageSearchKeyword);
             }
         }

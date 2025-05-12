@@ -25,7 +25,7 @@ namespace TcpChatClient.ViewModels
         public string Nickname { get; set; }
 
         public ObservableCollection<ChatMessage> AllMessages { get; } = new();
-        public ObservableCollection<ChatMessage> FilteredMessages { get; } = new();
+        public ObservableCollection<object> FilteredMessages { get; } = new();
         public ObservableCollection<string> OnlineUsers { get; } = new();
         public ObservableCollection<string> AllUsers { get; } = new();
         public ObservableCollection<string> FilteredUserList { get; } = new();
@@ -193,7 +193,9 @@ namespace TcpChatClient.ViewModels
                         if (history != null)
                         {
                             FilteredMessages.Clear();
-                            foreach (var pkt in history)
+                            DateTime? lastDate = null;
+
+                            foreach (var pkt in history.OrderBy(p => p.Timestamp))
                             {
                                 var chat = new ChatMessage
                                 {
@@ -215,15 +217,25 @@ namespace TcpChatClient.ViewModels
                                     AllMessages.Add(chat);
                                 }
 
-                                if ((chat.Sender == _selectedUser && chat.Receiver == Nickname) ||
-                                    (chat.Sender == Nickname && chat.Receiver == _selectedUser))
+                                bool isRelevant = (chat.Sender == _selectedUser && chat.Receiver == Nickname) ||
+                                                  (chat.Sender == Nickname && chat.Receiver == _selectedUser);
+
+                                if (isRelevant)
                                 {
+                                    var dateOnly = chat.Timestamp.Date;
+                                    if (lastDate == null || lastDate.Value != dateOnly)
+                                    {
+                                        FilteredMessages.Add(new ChatDateHeader { Date = dateOnly });
+                                        lastDate = dateOnly;
+                                    }
+
                                     FilteredMessages.Add(chat);
                                 }
                             }
                         }
                         return;
                     }
+
 
                     if (packet.Type == "download_result")
                     {
@@ -264,18 +276,29 @@ namespace TcpChatClient.ViewModels
         private void ApplyMessageSearchFilter()
         {
             FilteredMessages.Clear();
-            foreach (var msg in AllMessages)
+            DateTime? lastDate = null;
+
+            var filtered = AllMessages
+                .Where(m =>
+                    (m.Sender == _selectedUser && m.Receiver == Nickname) ||
+                    (m.Sender == Nickname && m.Receiver == _selectedUser))
+                .Where(m =>
+                    string.IsNullOrWhiteSpace(MessageSearchKeyword) ||
+                    m.Message.Contains(MessageSearchKeyword, StringComparison.OrdinalIgnoreCase))
+                .OrderBy(m => m.Timestamp);
+
+            foreach (var msg in filtered)
             {
-                bool matchUser = (msg.Sender == _selectedUser && msg.Receiver == Nickname)
-                              || (msg.Sender == Nickname && msg.Receiver == _selectedUser);
-
-                bool matchKeyword = string.IsNullOrWhiteSpace(MessageSearchKeyword)
-                                 || msg.Message.Contains(MessageSearchKeyword, StringComparison.OrdinalIgnoreCase);
-
-                if (matchUser && matchKeyword)
-                    FilteredMessages.Add(msg);
+                var dateOnly = msg.Timestamp.Date;
+                if (lastDate == null || lastDate.Value != dateOnly)
+                {
+                    FilteredMessages.Add(new ChatDateHeader { Date = dateOnly });
+                    lastDate = dateOnly;
+                }
+                FilteredMessages.Add(msg);
             }
         }
+
 
         public async Task RequestFileDownload(string serverPath, string fileName)
         {
