@@ -371,6 +371,19 @@ namespace TcpChatClient.ViewModels
             }
         }
 
+        public async Task MarkMessagesAsReadIfVisible()
+        {
+            if (!string.IsNullOrWhiteSpace(_selectedUser))
+            {
+                await _client.MarkMessagesAsReadAsync(_selectedUser);
+                if (UnreadCounts.ContainsKey(_selectedUser))
+                {
+                    UnreadCounts[_selectedUser] = 0;
+                    UpdateFilteredUserList();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string name = null)
             => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

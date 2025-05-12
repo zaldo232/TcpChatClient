@@ -22,10 +22,24 @@ namespace TcpChatClient.Views
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                     scrollViewer.ScrollToEnd();
+
+                TryMarkAsRead();
             };
+
+            scrollViewer.ScrollChanged += (s, e) => TryMarkAsRead();
+            this.Activated += (_, _) => TryMarkAsRead();
         }
 
         public MainWindow() : this("디자이너") { }
+
+        private void TryMarkAsRead()
+        {
+            if (!IsActive || _vm == null || scrollViewer == null) return;
+
+            bool atBottom = scrollViewer.VerticalOffset >= scrollViewer.ScrollableHeight - 50;
+            if (atBottom)
+                _ = _vm.MarkMessagesAsReadIfVisible();
+        }
 
         private void ShowAllUsers_Click(object sender, RoutedEventArgs e)
         {
@@ -149,6 +163,5 @@ namespace TcpChatClient.Views
                 ApplyHighlightedText(tb, msg.Display, vm.MessageSearchKeyword);
             }
         }
-
     }
 }
