@@ -102,6 +102,7 @@ namespace TcpChatClient.ViewModels
 
         public ICommand SendCommand { get; }
         public ICommand SendFileCommand { get; }
+        public ClientSocket Client => _client;
 
         public MainViewModel() : this("디자이너") { }
 
@@ -123,7 +124,8 @@ namespace TcpChatClient.ViewModels
                     Receiver = _selectedUser,
                     Message = Input,
                     MyName = Nickname,
-                    Timestamp = DateTime.Now
+                    Timestamp = DateTime.Now,
+                    IsRead = false
                 };
                 AllMessages.Add(msg);
                 FilteredMessages.Add(msg);
@@ -146,7 +148,8 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = DateTime.Now,
                         FileName = Path.GetFileName(dlg.FileName),
-                        Content = ""
+                        Content = "",
+                        IsRead = false
                     };
                     AllMessages.Add(msg);
                     FilteredMessages.Add(msg);
@@ -205,7 +208,8 @@ namespace TcpChatClient.ViewModels
                                     MyName = Nickname,
                                     Timestamp = pkt.Timestamp,
                                     FileName = pkt.FileName,
-                                    Content = pkt.Content
+                                    Content = pkt.Content,
+                                    IsRead = pkt.IsRead
                                 };
 
                                 if (!AllMessages.Any(m =>
@@ -236,6 +240,16 @@ namespace TcpChatClient.ViewModels
                         return;
                     }
 
+                    if (packet.Type == "read_notify")
+                    {
+                        foreach (var msg in AllMessages.Where(m =>
+                            m.Receiver == packet.Receiver &&
+                            m.Sender == packet.Sender))
+                        {
+                            msg.IsRead = true;
+                        }
+                        return;
+                    }
 
                     if (packet.Type == "download_result")
                     {
@@ -243,7 +257,7 @@ namespace TcpChatClient.ViewModels
                         return;
                     }
 
-                    var msg = new ChatMessage
+                    var newMsg = new ChatMessage
                     {
                         Sender = packet.Sender,
                         Receiver = packet.Receiver,
@@ -251,20 +265,21 @@ namespace TcpChatClient.ViewModels
                         MyName = Nickname,
                         Timestamp = packet.Timestamp,
                         FileName = packet.FileName,
-                        Content = packet.Content
+                        Content = packet.Content,
+                        IsRead = packet.IsRead
                     };
-                    AllMessages.Add(msg);
+                    AllMessages.Add(newMsg);
 
-                    if ((msg.Sender == _selectedUser && msg.Receiver == Nickname) ||
-                        (msg.Sender == Nickname && msg.Receiver == _selectedUser))
+                    if ((newMsg.Sender == _selectedUser && newMsg.Receiver == Nickname) ||
+                        (newMsg.Sender == Nickname && newMsg.Receiver == _selectedUser))
                     {
-                        FilteredMessages.Add(msg);
+                        FilteredMessages.Add(newMsg);
                     }
-                    else if (msg.Receiver == Nickname)
+                    else if (newMsg.Receiver == Nickname)
                     {
-                        if (!UnreadCounts.ContainsKey(msg.Sender))
-                            UnreadCounts[msg.Sender] = 0;
-                        UnreadCounts[msg.Sender]++;
+                        if (!UnreadCounts.ContainsKey(newMsg.Sender))
+                            UnreadCounts[newMsg.Sender] = 0;
+                        UnreadCounts[newMsg.Sender]++;
                         UpdateFilteredUserList();
                     }
                 });
@@ -298,7 +313,6 @@ namespace TcpChatClient.ViewModels
                 FilteredMessages.Add(msg);
             }
         }
-
 
         public async Task RequestFileDownload(string serverPath, string fileName)
         {
@@ -364,7 +378,8 @@ namespace TcpChatClient.ViewModels
                     MyName = Nickname,
                     Timestamp = DateTime.Now,
                     FileName = Path.GetFileName(filePath),
-                    Content = ""
+                    Content = "",
+                    IsRead = false
                 };
                 AllMessages.Add(msg);
                 FilteredMessages.Add(msg);

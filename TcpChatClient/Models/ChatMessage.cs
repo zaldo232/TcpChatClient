@@ -11,6 +11,7 @@ namespace TcpChatClient.Models
         public string Content { get; set; }
         public DateTime Timestamp { get; set; }
         public string MyName { get; set; }
+        public bool IsRead { get; set; }
 
         public bool IsMine => Sender == MyName;
         public bool IsFile => !string.IsNullOrEmpty(FileName);

@@ -10,5 +10,6 @@ namespace TcpChatClient.Models
         public string Content { get; set; }      // 텍스트 또는 Base64
         public string FileName { get; set; }     // 파일일 때만 사용
         public DateTime Timestamp { get; set; } = DateTime.Now;
+        public bool IsRead { get; set; }
     }
 }
