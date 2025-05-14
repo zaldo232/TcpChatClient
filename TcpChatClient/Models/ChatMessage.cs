@@ -38,6 +38,18 @@ namespace TcpChatClient.Models
             ? $"[파일] {OriginalFileName}"
             : $"{Message}";
 
+        public string ImageSource => IsImage && !string.IsNullOrWhiteSpace(Content)
+            ? $"data:image/png;base64,{Content}"
+            : null;
+
+        public bool IsImage =>
+            !string.IsNullOrEmpty(FileName) &&
+            (FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
+             FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
+             FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
+             FileName.EndsWith(".gif", StringComparison.OrdinalIgnoreCase) ||
+             FileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase));
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
@@ -55,6 +67,5 @@ namespace TcpChatClient.Models
         {
             return HashCode.Combine(Sender, Receiver, Timestamp, FileName, Content);
         }
-
     }
 }
