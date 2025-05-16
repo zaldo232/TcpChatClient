@@ -148,16 +148,28 @@ namespace TcpChatClient.ViewModels
                         IsDeleted = packet.IsDeleted
                     };
                     AllMessages.Add(msg);
-                    if ((msg.Sender == _selectedUser && msg.Receiver == Nickname) ||
-                        (msg.Sender == Nickname && msg.Receiver == _selectedUser))
-                        FilteredMessages.Add(msg);
-                    else if (msg.Receiver == Nickname)
+
+                    if ((msg.Sender == _selectedUser && msg.Receiver == Nickname) || (msg.Sender == Nickname && msg.Receiver == _selectedUser))
                     {
-                        if (!UnreadCounts.ContainsKey(msg.Sender))
-                            UnreadCounts[msg.Sender] = 0;
-                        UnreadCounts[msg.Sender]++;
-                        UpdateFilteredUserList();
+                        FilteredMessages.Add(msg);
                     }
+
+                    // 받은 메시지고 내가 포커스를 안 주고 있으면 → Unread 올려야 함
+                    if (msg.Receiver == Nickname && msg.Sender != Nickname)
+                    {
+                        bool chatOpen = _selectedUser == msg.Sender;
+                        bool windowFocused = Application.Current?.MainWindow is { IsActive: true };
+
+                        if (!chatOpen || !windowFocused)
+                        {
+                            if (!UnreadCounts.ContainsKey(msg.Sender))
+                                UnreadCounts[msg.Sender] = 0;
+
+                            UnreadCounts[msg.Sender]++;
+                            UpdateFilteredUserList();
+                        }
+                    }
+
                 },
                 handleDownload: SaveDownloadToFile,
                 markReadNotify: (from, to) =>
