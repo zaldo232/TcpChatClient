@@ -83,6 +83,7 @@ namespace TcpChatClient.ViewModels
 
         public ICommand SendCommand { get; }
         public ICommand SendFileCommand { get; }
+        public ICommand DeleteCommand { get; }
 
         public MainViewModel() : this("디자이너") { }
 
@@ -112,8 +113,10 @@ namespace TcpChatClient.ViewModels
                 },
                 loadHistory: packets =>
                 {
+                    AllMessages.Clear();
                     var chats = packets.Select(p => new ChatMessage
                     {
+                        Id = p.Id,
                         Sender = p.Sender,
                         Receiver = p.Receiver,
                         Message = p.Type == "file" ? $"[파일] {p.FileName}" : p.Content,
@@ -121,19 +124,19 @@ namespace TcpChatClient.ViewModels
                         Timestamp = p.Timestamp,
                         FileName = p.FileName,
                         Content = p.Content,
-                        IsRead = p.IsRead
+                        IsRead = p.IsRead,
+                        IsDeleted = p.IsDeleted
                     });
-
                     foreach (var chat in chats)
                         if (!AllMessages.Contains(chat))
                             AllMessages.Add(chat);
-
                     ApplyMessageSearchFilter();
                 },
                 handleNewMessage: packet =>
                 {
                     var msg = new ChatMessage
                     {
+                        Id = packet.Id,
                         Sender = packet.Sender,
                         Receiver = packet.Receiver,
                         Message = packet.Type == "file" ? $"[파일 수신] {packet.FileName}" : packet.Content,
@@ -141,16 +144,13 @@ namespace TcpChatClient.ViewModels
                         Timestamp = packet.Timestamp,
                         FileName = packet.FileName,
                         Content = packet.Content,
-                        IsRead = packet.IsRead
+                        IsRead = packet.IsRead,
+                        IsDeleted = packet.IsDeleted
                     };
-
                     AllMessages.Add(msg);
-
                     if ((msg.Sender == _selectedUser && msg.Receiver == Nickname) ||
                         (msg.Sender == Nickname && msg.Receiver == _selectedUser))
-                    {
                         FilteredMessages.Add(msg);
-                    }
                     else if (msg.Receiver == Nickname)
                     {
                         if (!UnreadCounts.ContainsKey(msg.Sender))
@@ -169,6 +169,21 @@ namespace TcpChatClient.ViewModels
                         changed = true;
                     }
                     if (changed) ApplyMessageSearchFilter();
+                },
+                handleDeleteNotify: (sender, receiver, timestamp, id) =>
+                {
+                    var target = AllMessages.FirstOrDefault(m => m.Id == id);
+                    if (target != null)
+                    {
+                        target.Message = "삭제된 메시지입니다";
+                        target.IsDeleted = true;
+                        RefreshFilteredMessages();
+                        OnPropertyChanged(nameof(FilteredMessages));
+                    }
+                    else
+                    {
+                        MessageBox.Show($"❗ 삭제 대상 못 찾음. ID={id}");
+                    }
                 });
 
             _socket.PacketReceived += packet => Application.Current.Dispatcher.Invoke(() => _packetHandler.Handle(packet));
@@ -181,19 +196,6 @@ namespace TcpChatClient.ViewModels
                     MessageBox.Show("보낼 메시지와 대상 유저를 선택하세요.");
                     return;
                 }
-
-                var msg = new ChatMessage
-                {
-                    Sender = Nickname,
-                    Receiver = _selectedUser,
-                    Message = Input,
-                    MyName = Nickname,
-                    Timestamp = DateTime.Now,
-                    IsRead = false
-                };
-
-                AllMessages.Add(msg);
-                FilteredMessages.Add(msg);
                 await _chatService.SendMessageAsync(Input, _selectedUser);
                 Input = string.Empty;
             });
@@ -204,31 +206,54 @@ namespace TcpChatClient.ViewModels
                 if (dlg.ShowDialog() == true && !string.IsNullOrEmpty(_selectedUser))
                 {
                     _ = _chatService.SendFileAsync(dlg.FileName, _selectedUser);
-
-                    var msg = new ChatMessage
-                    {
-                        Sender = Nickname,
-                        Receiver = _selectedUser,
-                        Message = $"[파일] {Path.GetFileName(dlg.FileName)}",
-                        MyName = Nickname,
-                        Timestamp = DateTime.Now,
-                        FileName = Path.GetFileName(dlg.FileName),
-                        Content = "",
-                        IsRead = false
-                    };
-
-                    AllMessages.Add(msg);
-                    FilteredMessages.Add(msg);
                 }
             });
+
+            DeleteCommand = new RelayCommand<ChatMessage>(DeleteMessage);
         }
 
         private void ApplyMessageSearchFilter()
         {
+            RefreshFilteredMessages();
+        }
+
+        private void RefreshFilteredMessages()
+        {
             var filtered = MessageFilterHelper.FilterMessagesWithDateHeaders(AllMessages, MessageSearchKeyword, Nickname, _selectedUser);
             FilteredMessages.Clear();
             foreach (var item in filtered)
-                FilteredMessages.Add(item);
+            {
+                if (item is ChatMessage msg)
+                {
+                    FilteredMessages.Add(new ChatMessage
+                    {
+                        Id = msg.Id,
+                        Sender = msg.Sender,
+                        Receiver = msg.Receiver,
+                        Message = msg.IsDeleted ? "삭제된 메시지입니다" : msg.Message,
+                        FileName = msg.FileName,
+                        Content = msg.Content,
+                        Timestamp = msg.Timestamp,
+                        MyName = msg.MyName,
+                        IsRead = msg.IsRead,
+                        IsDeleted = msg.IsDeleted
+                    });
+                }
+                else
+                {
+                    FilteredMessages.Add(item);
+                }
+            }
+        }
+
+        private void DeleteMessage(ChatMessage msg)
+        {
+            if (msg == null || msg.IsDeleted || msg.IsRead) return;
+            msg.Message = "삭제된 메시지입니다";
+            msg.IsDeleted = true;
+            _ = _chatService.SendDeleteAsync(msg);
+            RefreshFilteredMessages();
+            OnPropertyChanged(nameof(FilteredMessages));
         }
 
         public async Task RequestFileDownload(string serverPath, string fileName)
@@ -239,21 +264,6 @@ namespace TcpChatClient.ViewModels
             if (!string.IsNullOrEmpty(filePath) && !string.IsNullOrEmpty(_selectedUser))
             {
                 await _chatService.SendFileAsync(filePath, _selectedUser);
-
-                var msg = new ChatMessage
-                {
-                    Sender = Nickname,
-                    Receiver = _selectedUser,
-                    Message = $"[파일] {Path.GetFileName(filePath)}",
-                    MyName = Nickname,
-                    Timestamp = DateTime.Now,
-                    FileName = Path.GetFileName(filePath),
-                    Content = "",
-                    IsRead = false
-                };
-
-                AllMessages.Add(msg);
-                FilteredMessages.Add(msg);
             }
         }
 
@@ -298,16 +308,13 @@ namespace TcpChatClient.ViewModels
         {
             FilteredUserList.Clear();
             var source = SelectedFilter == "전체" ? AllUsers : OnlineUsers;
-
             foreach (var user in source)
             {
                 var cleanName = user.Split('(')[0].Trim();
                 if (cleanName == Nickname) continue;
-
                 if (!string.IsNullOrWhiteSpace(UserSearchKeyword) &&
                     !cleanName.Contains(UserSearchKeyword, StringComparison.OrdinalIgnoreCase))
                     continue;
-
                 if (UnreadCounts.TryGetValue(cleanName, out int count) && count > 0)
                     FilteredUserList.Add($"{cleanName} ({count})");
                 else

@@ -37,5 +37,18 @@ namespace TcpChatClient.Services
                 Sender = from,
                 Receiver = to
             });
+        public Task SendDeleteAsync(ChatMessage msg)
+        {
+            var packet = new ChatPacket
+            {
+                Type = "delete",
+                Sender = msg.Sender,
+                Receiver = msg.Receiver,
+                Timestamp = msg.Timestamp,
+                Id = msg.Id
+            };
+            return _socket.SendPacketAsync(packet);
+        }
+
     }
 }

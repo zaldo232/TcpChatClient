@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
-using System.Windows;
 using TcpChatClient.Models;
 
 namespace TcpChatClient.Services
@@ -16,6 +15,7 @@ namespace TcpChatClient.Services
         private readonly Action<ChatPacket> _handleNewMessage;
         private readonly Action<ChatPacket> _handleDownload;
         private readonly Action<string, string> _markReadNotify;
+        private readonly Action<string, string, DateTime, int> _handleDeleteNotify;
 
         public ChatPacketHandler(
             string myName,
@@ -24,7 +24,8 @@ namespace TcpChatClient.Services
             Action<List<ChatPacket>> loadHistory,
             Action<ChatPacket> handleNewMessage,
             Action<ChatPacket> handleDownload,
-            Action<string, string> markReadNotify)
+            Action<string, string> markReadNotify,
+            Action<string, string, DateTime, int> handleDeleteNotify)
         {
             _myName = myName;
             _updateOnlineUsers = updateOnlineUsers;
@@ -33,6 +34,7 @@ namespace TcpChatClient.Services
             _handleNewMessage = handleNewMessage;
             _handleDownload = handleDownload;
             _markReadNotify = markReadNotify;
+            _handleDeleteNotify = handleDeleteNotify;
         }
 
         public void Handle(ChatPacket packet)
@@ -70,10 +72,15 @@ namespace TcpChatClient.Services
                     _markReadNotify(packet.Sender, packet.Receiver);
                     break;
 
+                case "delete_notify":
+                    _handleDeleteNotify(packet.Sender, packet.Receiver, packet.Timestamp, packet.Id);
+                    break;
+
                 default:
                     _handleNewMessage(packet);
                     break;
             }
         }
     }
+
 }
