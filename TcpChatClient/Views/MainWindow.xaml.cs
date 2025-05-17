@@ -5,6 +5,7 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using TcpChatClient.Models;
 using TcpChatClient.ViewModels;
+using System.IO;
 
 namespace TcpChatClient.Views
 {
@@ -53,16 +54,38 @@ namespace TcpChatClient.Views
                 vm.SelectedFilter = "접속중";
         }
 
-        private async void FileDownload_Click(object sender, RoutedEventArgs e)
+        private void FileDownload_Click(object sender, RoutedEventArgs e)
         {
-            if (sender is Button btn && btn.Tag is ChatMessage msg)
+            ChatMessage msg = null;
+
+            if (sender is FrameworkElement fe && fe.Tag is ChatMessage m)
+                msg = m;
+
+            if (msg == null || string.IsNullOrWhiteSpace(msg.Content)) return;
+
+            var dlg = new Microsoft.Win32.SaveFileDialog
             {
-                if (msg.MyName != msg.Sender && !string.IsNullOrWhiteSpace(msg.Content))
+                FileName = msg.OriginalFileName,
+                Title = "파일 저장",
+                Filter = "모든 파일 (*.*)|*.*"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                try
                 {
-                    await _vm.RequestFileDownload(msg.Content, msg.FileName);
+                    byte[] data = Convert.FromBase64String(msg.Content);
+                    File.WriteAllBytes(dlg.FileName, data);
+                    MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"파일 저장 실패: {ex.Message}", "오류", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
+
+
 
         private void InputBox_PreviewDragOver(object sender, DragEventArgs e)
         {

@@ -4,12 +4,31 @@ namespace TcpChatClient.Models
 {
     public class ChatPacket
     {
-        public string Type { get; set; }         // "message", "file", "userlist", "history", etc.
+        public int Id { get; set; }
+        public string Type { get; set; }
         public string Sender { get; set; }
         public string Receiver { get; set; }
-        public string Content { get; set; }      // 텍스트 또는 Base64
-        public string FileName { get; set; }     // 파일일 때만 사용
+        public string Content { get; set; }
+        public string FileName { get; set; }
         public DateTime Timestamp { get; set; } = DateTime.Now;
         public bool IsRead { get; set; }
+        public bool IsDeleted { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is not ChatPacket other) return false;
+            return Sender == other.Sender &&
+                   Receiver == other.Receiver &&
+                   Timestamp == other.Timestamp &&
+                   FileName == other.FileName &&
+                   Content == other.Content &&
+                   IsDeleted == other.IsDeleted;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Sender, Receiver, Timestamp, FileName, Content, IsDeleted);
+        }
     }
+
 }
