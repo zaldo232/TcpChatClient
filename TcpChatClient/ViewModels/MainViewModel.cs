@@ -291,7 +291,6 @@ namespace TcpChatClient.ViewModels
                 }
             }
         }
-
         private void SaveDownloadToFile(ChatPacket packet)
         {
             var dlg = new SaveFileDialog
@@ -305,8 +304,8 @@ namespace TcpChatClient.ViewModels
             {
                 try
                 {
-                    byte[] data = Convert.FromBase64String(packet.Content);
-                    File.WriteAllBytes(dlg.FileName, data);
+                    byte[] data = Convert.FromBase64String(packet.Content); // Base64 디코딩
+                    File.WriteAllBytes(dlg.FileName, data);                 // 저장할 경로: dlg.FileName
                     MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
@@ -315,6 +314,7 @@ namespace TcpChatClient.ViewModels
                 }
             }
         }
+
 
         private void UpdateFilteredUserList()
         {

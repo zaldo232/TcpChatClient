@@ -1,5 +1,8 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
 
 public class ChatMessage : INotifyPropertyChanged
 {
@@ -12,7 +15,7 @@ public class ChatMessage : INotifyPropertyChanged
     public DateTime Timestamp { get; set; }
     public string MyName { get; set; }
 
-    private bool _isDeleted;    
+    private bool _isDeleted;
     public bool IsDeleted
     {
         get => _isDeleted;
@@ -22,8 +25,8 @@ public class ChatMessage : INotifyPropertyChanged
             {
                 _isDeleted = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IsDeletable)); // 삭제 버튼 갱신
-                OnPropertyChanged(nameof(Display));     // 텍스트 갱신
+                OnPropertyChanged(nameof(IsDeletable));
+                OnPropertyChanged(nameof(Display));
             }
         }
     }
@@ -38,7 +41,7 @@ public class ChatMessage : INotifyPropertyChanged
             {
                 _isRead = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(IsDeletable)); // 읽음 상태 변화시 삭제버튼 재계산
+                OnPropertyChanged(nameof(IsDeletable));
             }
         }
     }
@@ -55,8 +58,6 @@ public class ChatMessage : INotifyPropertyChanged
         : IsFile ? $"[파일] {OriginalFileName}"
         : Message;
 
-    public string ImageSource => IsImage && !string.IsNullOrWhiteSpace(Content) ? $"data:image/png;base64,{Content}" : null;
-
     public bool IsImage =>
         !string.IsNullOrEmpty(FileName) &&
         (FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
@@ -64,6 +65,31 @@ public class ChatMessage : INotifyPropertyChanged
          FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
          FileName.EndsWith(".gif", StringComparison.OrdinalIgnoreCase) ||
          FileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase));
+
+    public BitmapImage ImageSource
+    {
+        get
+        {
+            if (!IsImage || string.IsNullOrWhiteSpace(Content))
+                return null;
+
+            try
+            {
+                byte[] imageBytes = Convert.FromBase64String(Content);
+                using var ms = new MemoryStream(imageBytes);
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.StreamSource = ms;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.EndInit();
+                return image;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string name = null)

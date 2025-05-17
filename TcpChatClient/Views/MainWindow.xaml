@@ -103,19 +103,59 @@
 
         <!-- 파일 메시지 템플릿 -->
         <DataTemplate x:Key="FileTemplate">
-            <Grid Margin="4">
-                <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
-                        CornerRadius="12" Padding="10,6"
-                        HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
-                        MaxWidth="400">
-                    <Button Content="{Binding Display}" Padding="4"
-                            Click="FileDownload_Click"
-                            Tag="{Binding}" Background="Transparent" BorderThickness="0"
-                            HorizontalAlignment="Left" Foreground="DarkBlue"
-                            Cursor="Hand"
-                            Visibility="{Binding IsFileMessage, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                </Border>
-            </Grid>
+            <StackPanel Margin="4"
+                HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                Orientation="Vertical">
+
+                <!-- 이미지 메시지일 경우 -->
+                <StackPanel Visibility="{Binding IsImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Image Source="{Binding ImageSource}"
+                   MaxWidth="200"
+                   Margin="4"
+                   Cursor="Hand"
+                   MouseLeftButtonUp="FileDownload_Click"
+                   Tag="{Binding}"/>
+                </StackPanel>
+
+                <!-- 일반 파일 메시지일 경우 -->
+                <StackPanel Visibility="{Binding IsFileMessage, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
+                    CornerRadius="12" Padding="10,6"
+                    HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                    MaxWidth="400">
+                        <TextBlock Text="{Binding Display}"
+                           Foreground="DarkBlue"
+                           TextWrapping="Wrap"
+                           Cursor="Hand"
+                           MouseLeftButtonUp="FileDownload_Click"
+                           Tag="{Binding}"/>
+                    </Border>
+                </StackPanel>
+
+                <!-- 읽음 상태 표시 -->
+                <TextBlock FontSize="10"
+                   Foreground="Gray"
+                   Margin="0,2,0,0"
+                   HorizontalAlignment="Right"
+                   Text="{Binding IsRead, Converter={StaticResource ReadStatusConverter}}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsMine}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <TextBlock Text="{Binding Timestamp, StringFormat=tt h:mm}"
+                   FontSize="10"
+                   Foreground="Gray"
+                   HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                   Margin="6,2,6,0"/>
+            </StackPanel>
         </DataTemplate>
 
         <!-- 템플릿 선택자 -->
