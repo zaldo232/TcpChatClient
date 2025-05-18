@@ -4,6 +4,8 @@ using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using TcpChatClient.Helpers;
+using System.Diagnostics;
 
 namespace TcpChatClient.Models
 {
@@ -85,10 +87,25 @@ namespace TcpChatClient.Models
 
         public async Task SendPacketAsync(ChatPacket packet)
         {
+            if (packet.Type == "message" && !string.IsNullOrWhiteSpace(packet.Content))
+            {
+                Debug.WriteLine($"[전송 전 평문] {packet.Content}");
+
+                string encrypted = AesEncryption.Encrypt(packet.Content);
+                Debug.WriteLine($"[전송 후 암호문] {encrypted}");
+
+                if (!string.IsNullOrWhiteSpace(encrypted))
+                    packet.Content = encrypted;
+                else
+                    return; // 암호화 실패 시 전송 안 함
+            }
+
             var json = JsonSerializer.Serialize(packet);
             var data = Encoding.UTF8.GetBytes(json + "\n");
             await _stream.WriteAsync(data, 0, data.Length);
         }
+
+
 
         private async void StartReceiveLoop()
         {

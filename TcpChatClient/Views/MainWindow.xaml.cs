@@ -147,9 +147,9 @@ namespace TcpChatClient.Views
 
         public static void ApplyHighlightedText(TextBlock target, string fullText, string keyword)
         {
-            if (string.IsNullOrWhiteSpace(keyword))
+            if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrEmpty(fullText))
             {
-                target.Inlines.Add(fullText);
+                target.Inlines.Add(fullText ?? "(빈 메세지)");
                 return;
             }
 
