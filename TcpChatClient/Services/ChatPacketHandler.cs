@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using TcpChatClient.Helpers;
 using TcpChatClient.Models;
 
 namespace TcpChatClient.Services
@@ -61,7 +62,9 @@ namespace TcpChatClient.Services
                 case "history":
                     var history = JsonSerializer.Deserialize<List<ChatPacket>>(packet.Content);
                     if (history != null)
+                    {
                         _loadHistory(history);
+                    }
                     break;
 
                 case "download_result":
@@ -77,10 +80,11 @@ namespace TcpChatClient.Services
                     break;
 
                 default:
-                    _handleNewMessage(packet);
+                    if (packet.Type == "message" || packet.Type == "file")
+                        _handleNewMessage(packet);
                     break;
             }
         }
-    }
 
+    }
 }
