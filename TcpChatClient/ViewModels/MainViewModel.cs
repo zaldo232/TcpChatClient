@@ -257,6 +257,9 @@ namespace TcpChatClient.ViewModels
                 }
                 await _chatService.SendMessageAsync(Input, _selectedUser);
                 Input = string.Empty;
+
+                _typingStartTimer.Stop();
+                _typingEndTimer.Stop();
                 await _socket.SendTypingAsync(_selectedUser, false);
             });
 
