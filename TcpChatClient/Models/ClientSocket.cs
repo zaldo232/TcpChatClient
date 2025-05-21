@@ -49,7 +49,8 @@ namespace TcpChatClient.Models
         {
             string fileName = Path.GetFileName(filePath);
             byte[] fileBytes = File.ReadAllBytes(filePath);
-            string base64 = Convert.ToBase64String(fileBytes);
+            byte[] encryptedBytes = AesEncryption.EncryptBytes(fileBytes);
+            string base64 = Convert.ToBase64String(encryptedBytes);
 
             var packet = new ChatPacket
             {

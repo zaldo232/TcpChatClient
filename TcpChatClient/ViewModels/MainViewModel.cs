@@ -332,8 +332,10 @@ namespace TcpChatClient.ViewModels
             {
                 try
                 {
-                    byte[] data = Convert.FromBase64String(packet.Content);
-                    File.WriteAllBytes(dlg.FileName, data);
+                    byte[] encrypted = Convert.FromBase64String(packet.Content);
+                    byte[] decrypted = AesEncryption.DecryptBytes(encrypted);
+                    File.WriteAllBytes(dlg.FileName, decrypted);
+
                     MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
@@ -342,6 +344,7 @@ namespace TcpChatClient.ViewModels
                 }
             }
         }
+
 
         private void UpdateFilteredUserList()
         {

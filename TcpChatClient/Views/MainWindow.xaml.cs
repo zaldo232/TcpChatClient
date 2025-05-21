@@ -6,6 +6,7 @@ using System.Windows.Media;
 using TcpChatClient.Models;
 using TcpChatClient.ViewModels;
 using System.IO;
+using TcpChatClient.Helpers;
 
 namespace TcpChatClient.Views
 {
@@ -74,8 +75,9 @@ namespace TcpChatClient.Views
             {
                 try
                 {
-                    byte[] data = Convert.FromBase64String(msg.Content);
-                    File.WriteAllBytes(dlg.FileName, data);
+                    byte[] encrypted = Convert.FromBase64String(msg.Content);
+                    byte[] decrypted = AesEncryption.DecryptBytes(encrypted);
+                    File.WriteAllBytes(dlg.FileName, decrypted);
                     MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
