@@ -49,7 +49,8 @@ namespace TcpChatClient.Models
         {
             string fileName = Path.GetFileName(filePath);
             byte[] fileBytes = File.ReadAllBytes(filePath);
-            string base64 = Convert.ToBase64String(fileBytes);
+            byte[] encryptedBytes = AesEncryption.EncryptBytes(fileBytes);
+            string base64 = Convert.ToBase64String(encryptedBytes);
 
             var packet = new ChatPacket
             {
@@ -105,7 +106,18 @@ namespace TcpChatClient.Models
             await _stream.WriteAsync(data, 0, data.Length);
         }
 
+        public async Task SendTypingAsync(string receiver, bool isTyping)
+        {
+            var packet = new ChatPacket
+            {
+                Type = "typing",
+                Sender = Nickname,
+                Receiver = receiver,
+                Content = isTyping ? "start" : "stop"
+            };
 
+            await SendPacketAsync(packet);
+        }
 
         private async void StartReceiveLoop()
         {
@@ -128,5 +140,6 @@ namespace TcpChatClient.Models
                 }
             }
         }
+
     }
 }

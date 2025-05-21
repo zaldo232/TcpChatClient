@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Media.Imaging;
+using TcpChatClient.Helpers;
 
 public class ChatMessage : INotifyPropertyChanged
 {
@@ -58,13 +59,13 @@ public class ChatMessage : INotifyPropertyChanged
         : IsFile ? $"[파일] {OriginalFileName}"
         : Message;
 
-    public bool IsImage =>
-        !string.IsNullOrEmpty(FileName) &&
+    public bool IsImage => !string.IsNullOrEmpty(FileName) &&
         (FileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
          FileName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase) ||
          FileName.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
          FileName.EndsWith(".gif", StringComparison.OrdinalIgnoreCase) ||
-         FileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase));
+         FileName.EndsWith(".bmp", StringComparison.OrdinalIgnoreCase)
+        );
 
     public BitmapImage ImageSource
     {
@@ -75,8 +76,10 @@ public class ChatMessage : INotifyPropertyChanged
 
             try
             {
-                byte[] imageBytes = Convert.FromBase64String(Content);
-                using var ms = new MemoryStream(imageBytes);
+                byte[] encryptedBytes = Convert.FromBase64String(Content);
+                byte[] decryptedBytes = AesEncryption.DecryptBytes(encryptedBytes);
+
+                using var ms = new MemoryStream(decryptedBytes);
                 var image = new BitmapImage();
                 image.BeginInit();
                 image.StreamSource = ms;

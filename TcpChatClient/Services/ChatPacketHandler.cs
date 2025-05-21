@@ -17,6 +17,7 @@ namespace TcpChatClient.Services
         private readonly Action<ChatPacket> _handleDownload;
         private readonly Action<string, string> _markReadNotify;
         private readonly Action<string, string, DateTime, int> _handleDeleteNotify;
+        private readonly Action<string, bool> _setTypingState;
 
         public ChatPacketHandler(
             string myName,
@@ -26,7 +27,8 @@ namespace TcpChatClient.Services
             Action<ChatPacket> handleNewMessage,
             Action<ChatPacket> handleDownload,
             Action<string, string> markReadNotify,
-            Action<string, string, DateTime, int> handleDeleteNotify)
+            Action<string, string, DateTime, int> handleDeleteNotify,
+            Action<string, bool> setTypingState)
         {
             _myName = myName;
             _updateOnlineUsers = updateOnlineUsers;
@@ -36,6 +38,7 @@ namespace TcpChatClient.Services
             _handleDownload = handleDownload;
             _markReadNotify = markReadNotify;
             _handleDeleteNotify = handleDeleteNotify;
+            _setTypingState = setTypingState;
         }
 
         public void Handle(ChatPacket packet)
@@ -77,6 +80,13 @@ namespace TcpChatClient.Services
 
                 case "delete_notify":
                     _handleDeleteNotify(packet.Sender, packet.Receiver, packet.Timestamp, packet.Id);
+                    break;
+
+                case "typing":
+                    if (packet.Content == "start")
+                        _setTypingState(packet.Sender, true);
+                    else
+                        _setTypingState(packet.Sender, false);
                     break;
 
                 default:

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Timers;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
@@ -18,6 +21,11 @@ namespace TcpChatClient.ViewModels
         private readonly ClientSocket _socket = new();
         private readonly ChatService _chatService;
         private readonly ChatPacketHandler _packetHandler;
+        private readonly Dictionary<string, int> UnreadCounts = new();
+        private readonly Dictionary<string, bool> TypingUsers = new();
+
+        private readonly System.Timers.Timer _typingStartTimer;
+        private readonly System.Timers.Timer _typingEndTimer;
 
         private string _input;
         private string _selectedUser;
@@ -26,19 +34,31 @@ namespace TcpChatClient.ViewModels
         private string _userSearchKeyword;
 
         public string Nickname { get; }
-
         public ObservableCollection<ChatMessage> AllMessages { get; } = new();
         public ObservableCollection<object> FilteredMessages { get; } = new();
         public ObservableCollection<string> OnlineUsers { get; } = new();
         public ObservableCollection<string> AllUsers { get; } = new();
         public ObservableCollection<string> FilteredUserList { get; } = new();
 
-        private readonly Dictionary<string, int> UnreadCounts = new();
-
         public string Input
         {
             get => _input;
-            set { _input = value; OnPropertyChanged(); }
+            set
+            {
+                _input = value;
+                OnPropertyChanged();
+
+                if (!string.IsNullOrWhiteSpace(_selectedUser))
+                {
+                    _typingEndTimer.Stop();
+                    _typingEndTimer.Start();
+
+                    if (!_typingStartTimer.Enabled)
+                    {
+                        _typingStartTimer.Start();
+                    }
+                }
+            }
         }
 
         public string SelectedUser
@@ -58,8 +78,8 @@ namespace TcpChatClient.ViewModels
 
                 _ = _chatService.MarkMessagesAsReadAsync(_selectedUser);
                 _ = _chatService.RequestHistoryAsync(Nickname, _selectedUser);
-
                 ApplyMessageSearchFilter();
+                OnPropertyChanged(nameof(IsOpponentTyping));
             }
         }
 
@@ -81,6 +101,11 @@ namespace TcpChatClient.ViewModels
             set { _userSearchKeyword = value; OnPropertyChanged(); UpdateFilteredUserList(); }
         }
 
+        public bool IsOpponentTyping =>
+            _selectedUser != null &&
+            TypingUsers.TryGetValue(_selectedUser, out var isTyping) &&
+            isTyping;
+
         public ICommand SendCommand { get; }
         public ICommand SendFileCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -91,6 +116,28 @@ namespace TcpChatClient.ViewModels
         {
             Nickname = username;
             _chatService = new ChatService(_socket);
+
+            _typingStartTimer = new System.Timers.Timer(500);
+            _typingStartTimer.Elapsed += async (_, _) =>
+            {
+                _typingStartTimer.Stop();
+                if (!string.IsNullOrWhiteSpace(_selectedUser))
+                {
+                    await _socket.SendTypingAsync(_selectedUser, true);
+                }
+            };
+            _typingStartTimer.AutoReset = false;
+
+            _typingEndTimer = new System.Timers.Timer(1500);
+            _typingEndTimer.Elapsed += async (_, _) =>
+            {
+                _typingEndTimer.Stop();
+                if (!string.IsNullOrWhiteSpace(_selectedUser))
+                {
+                    await _socket.SendTypingAsync(_selectedUser, false);
+                }
+            };
+            _typingEndTimer.AutoReset = false;
 
             _packetHandler = new ChatPacketHandler(
                 myName: Nickname,
@@ -114,22 +161,22 @@ namespace TcpChatClient.ViewModels
                 loadHistory: packets =>
                 {
                     AllMessages.Clear();
-                    var chats = packets.Select(p => new ChatMessage
+                    foreach (var p in packets)
                     {
-                        Id = p.Id,
-                        Sender = p.Sender,
-                        Receiver = p.Receiver,
-                        Message = p.Type == "file" ? $"[파일] {p.FileName}" : p.Content,
-                        MyName = Nickname,
-                        Timestamp = p.Timestamp,
-                        FileName = p.FileName,
-                        Content = p.Content,
-                        IsRead = p.IsRead,
-                        IsDeleted = p.IsDeleted
-                    });
-                    foreach (var chat in chats)
-                        if (!AllMessages.Contains(chat))
-                            AllMessages.Add(chat);
+                        AllMessages.Add(new ChatMessage
+                        {
+                            Id = p.Id,
+                            Sender = p.Sender,
+                            Receiver = p.Receiver,
+                            Message = p.Type == "file" ? $"[파일] {p.FileName}" : p.Content,
+                            MyName = Nickname,
+                            Timestamp = p.Timestamp,
+                            FileName = p.FileName,
+                            Content = p.Content,
+                            IsRead = p.IsRead,
+                            IsDeleted = p.IsDeleted
+                        });
+                    }
                     ApplyMessageSearchFilter();
                 },
                 handleNewMessage: packet =>
@@ -154,7 +201,6 @@ namespace TcpChatClient.ViewModels
                         FilteredMessages.Add(msg);
                     }
 
-                    // 받은 메시지고 내가 포커스를 안 주고 있으면 → Unread 올려야 함
                     if (msg.Receiver == Nickname && msg.Sender != Nickname)
                     {
                         bool chatOpen = _selectedUser == msg.Sender;
@@ -169,7 +215,6 @@ namespace TcpChatClient.ViewModels
                             UpdateFilteredUserList();
                         }
                     }
-
                 },
                 handleDownload: SaveDownloadToFile,
                 markReadNotify: (from, to) =>
@@ -192,13 +237,15 @@ namespace TcpChatClient.ViewModels
                         RefreshFilteredMessages();
                         OnPropertyChanged(nameof(FilteredMessages));
                     }
-                    else
-                    {
-                        MessageBox.Show($"❗ 삭제 대상 못 찾음. ID={id}");
-                    }
+                },
+                setTypingState: (user, isTyping) =>
+                {
+                    TypingUsers[user] = isTyping;
+                    OnPropertyChanged(nameof(IsOpponentTyping));
                 });
 
-            _socket.PacketReceived += packet => Application.Current.Dispatcher.Invoke(() => _packetHandler.Handle(packet));
+            _socket.PacketReceived += packet =>
+                Application.Current.Dispatcher.Invoke(() => _packetHandler.Handle(packet));
             _ = _chatService.ConnectAsync(Nickname);
 
             SendCommand = new RelayCommand(async () =>
@@ -210,6 +257,10 @@ namespace TcpChatClient.ViewModels
                 }
                 await _chatService.SendMessageAsync(Input, _selectedUser);
                 Input = string.Empty;
+
+                _typingStartTimer.Stop();
+                _typingEndTimer.Stop();
+                await _socket.SendTypingAsync(_selectedUser, false);
             });
 
             SendFileCommand = new RelayCommand(() =>
@@ -224,38 +275,14 @@ namespace TcpChatClient.ViewModels
             DeleteCommand = new RelayCommand<ChatMessage>(DeleteMessage);
         }
 
-        private void ApplyMessageSearchFilter()
-        {
-            RefreshFilteredMessages();
-        }
+        private void ApplyMessageSearchFilter() => RefreshFilteredMessages();
 
         private void RefreshFilteredMessages()
         {
             var filtered = MessageFilterHelper.FilterMessagesWithDateHeaders(AllMessages, MessageSearchKeyword, Nickname, _selectedUser);
             FilteredMessages.Clear();
             foreach (var item in filtered)
-            {
-                if (item is ChatMessage msg)
-                {
-                    FilteredMessages.Add(new ChatMessage
-                    {
-                        Id = msg.Id,
-                        Sender = msg.Sender,
-                        Receiver = msg.Receiver,
-                        Message = msg.IsDeleted ? "삭제된 메시지입니다" : msg.Message,
-                        FileName = msg.FileName,
-                        Content = msg.Content,
-                        Timestamp = msg.Timestamp,
-                        MyName = msg.MyName,
-                        IsRead = msg.IsRead,
-                        IsDeleted = msg.IsDeleted
-                    });
-                }
-                else
-                {
-                    FilteredMessages.Add(item);
-                }
-            }
+                FilteredMessages.Add(item);
         }
 
         private void DeleteMessage(ChatMessage msg)
@@ -291,6 +318,7 @@ namespace TcpChatClient.ViewModels
                 }
             }
         }
+
         private void SaveDownloadToFile(ChatPacket packet)
         {
             var dlg = new SaveFileDialog
@@ -304,8 +332,10 @@ namespace TcpChatClient.ViewModels
             {
                 try
                 {
-                    byte[] data = Convert.FromBase64String(packet.Content); // Base64 디코딩
-                    File.WriteAllBytes(dlg.FileName, data);                 // 저장할 경로: dlg.FileName
+                    byte[] encrypted = Convert.FromBase64String(packet.Content);
+                    byte[] decrypted = AesEncryption.DecryptBytes(encrypted);
+                    File.WriteAllBytes(dlg.FileName, decrypted);
+
                     MessageBox.Show("파일 저장 완료", "성공", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)
