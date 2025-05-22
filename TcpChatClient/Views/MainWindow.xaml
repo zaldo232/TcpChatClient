@@ -258,5 +258,20 @@
             </Grid>
         </StackPanel>
 
+        <!-- 연결 끊김 시 오버레이 -->
+        <Grid Background="#80000000"
+              Visibility="{Binding IsConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}"
+              IsHitTestVisible="True"
+              Panel.ZIndex="999">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="서버에 연결 중..."
+                           Foreground="White"
+                           FontSize="20"
+                           Margin="0 0 0 10"
+                           HorizontalAlignment="Center"/>
+                <ProgressBar Width="200" Height="20" IsIndeterminate="True"/>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Window>

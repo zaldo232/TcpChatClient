@@ -106,6 +106,8 @@ namespace TcpChatClient.ViewModels
             TypingUsers.TryGetValue(_selectedUser, out var isTyping) &&
             isTyping;
 
+        public bool IsConnected => _socket.IsConnected;
+
         public ICommand SendCommand { get; }
         public ICommand SendFileCommand { get; }
         public ICommand DeleteCommand { get; }
@@ -116,6 +118,12 @@ namespace TcpChatClient.ViewModels
         {
             Nickname = username;
             _chatService = new ChatService(_socket);
+
+            _socket.PropertyChanged += (_, e) =>
+            {
+                if (e.PropertyName == nameof(ClientSocket.IsConnected))
+                    OnPropertyChanged(nameof(IsConnected));
+            };
 
             _typingStartTimer = new System.Timers.Timer(500);
             _typingStartTimer.Elapsed += async (_, _) =>
@@ -246,7 +254,7 @@ namespace TcpChatClient.ViewModels
 
             _socket.PacketReceived += packet =>
                 Application.Current.Dispatcher.Invoke(() => _packetHandler.Handle(packet));
-            _ = _chatService.ConnectAsync(Nickname);
+            _ = _socket.SafeConnectAsync("127.0.0.1", 9000, username);
 
             SendCommand = new RelayCommand(async () =>
             {
