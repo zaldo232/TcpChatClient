@@ -64,7 +64,7 @@ namespace TcpChatClient.Models
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"[연결 실패 {retry}/5] 재시도 중... {ex.Message}");
-                    await Task.Delay(5000);
+                    await Task.Delay(3000);
                 }
             }
 
