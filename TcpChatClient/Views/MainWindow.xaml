@@ -8,12 +8,13 @@
         WindowStartupLocation="CenterScreen"
         FontFamily="Segoe UI" Background="#FAFAFA">
 
+    <!-- 리소스: 메시지 템플릿/셀렉터/컨버터 등 -->
     <Window.Resources>
         <conv:BoolToAlignmentConverter x:Key="BoolToAlign"/>
         <conv:BoolToBrushConverter x:Key="BoolToBrush"/>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 
-        <!-- 날짜 템플릿 -->
+        <!-- 날짜 헤더 템플릿 -->
         <DataTemplate x:Key="DateTemplate">
             <TextBlock Text="{Binding Display}"
                        FontWeight="Bold"
@@ -28,7 +29,7 @@
                         HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
                         Orientation="Vertical">
 
-                <!-- 상대방 이름만 표시 -->
+                <!-- 내 메시지는 이름 숨김, 상대방 메시지는 이름 표시 -->
                 <TextBlock Text="{Binding Sender}"
                            FontSize="11"
                            Foreground="Gray"
@@ -45,6 +46,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
+                <!-- 메시지 말풍선 (내 메시지는 오른쪽, 상대는 왼쪽) -->
                 <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
                         CornerRadius="12"
                         Padding="10,6"
@@ -79,7 +81,8 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-                
+
+                <!-- 삭제 버튼(본인 미읽음만) -->
                 <Button Content="삭제"
                         Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType=Window}}"
                         CommandParameter="{Binding}"
@@ -93,6 +96,7 @@
                         BorderBrush="Transparent"
                         Cursor="Hand"/>
                 
+                <!-- 메시지 시간 -->
                 <TextBlock Text="{Binding Timestamp, StringFormat=tt h:mm}"
                            FontSize="10"
                            Foreground="Gray"
@@ -100,44 +104,45 @@
                            Margin="6,2,6,0"/>
             </StackPanel>
         </DataTemplate>
-
+        <!-- 일반 메시지 템플릿 끝 -->
+        
         <!-- 파일 메시지 템플릿 -->
         <DataTemplate x:Key="FileTemplate">
             <StackPanel Margin="4"
-                HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
-                Orientation="Vertical">
-
-                <!-- 이미지 메시지일 경우 -->
+                        HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                        Orientation="Vertical">
+                
+                <!-- 이미지 파일 메시지 표시 (클릭하면 다운로드) -->
                 <StackPanel Visibility="{Binding IsImage, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Image Source="{Binding ImageSource}"
-                   MaxWidth="200"
-                   Margin="4"
-                   Cursor="Hand"
-                   MouseLeftButtonUp="FileDownload_Click"
-                   Tag="{Binding}"/>
-                </StackPanel>
-
-                <!-- 일반 파일 메시지일 경우 -->
-                <StackPanel Visibility="{Binding IsFileMessage, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
-                    CornerRadius="12" Padding="10,6"
-                    HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
-                    MaxWidth="400">
-                        <TextBlock Text="{Binding Display}"
-                           Foreground="DarkBlue"
-                           TextWrapping="Wrap"
+                           MaxWidth="200"
+                           Margin="4"
                            Cursor="Hand"
                            MouseLeftButtonUp="FileDownload_Click"
                            Tag="{Binding}"/>
+                </StackPanel>
+
+                <!-- 일반 파일 메시지 표시 (클릭하면 다운로드) -->
+                <StackPanel Visibility="{Binding IsFileMessage, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border Background="{Binding IsMine, Converter={StaticResource BoolToBrush}}"
+                            CornerRadius="12" Padding="10,6"
+                            HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                            MaxWidth="400">
+                        <TextBlock Text="{Binding Display}"
+                                   Foreground="DarkBlue"
+                                   TextWrapping="Wrap"
+                                   Cursor="Hand"
+                                   MouseLeftButtonUp="FileDownload_Click"
+                                   Tag="{Binding}"/>
                     </Border>
                 </StackPanel>
 
                 <!-- 읽음 상태 표시 -->
                 <TextBlock FontSize="10"
-                   Foreground="Gray"
-                   Margin="0,2,0,0"
-                   HorizontalAlignment="Right"
-                   Text="{Binding IsRead, Converter={StaticResource ReadStatusConverter}}">
+                           Foreground="Gray"
+                           Margin="0,2,0,0"
+                           HorizontalAlignment="Right"
+                           Text="{Binding IsRead, Converter={StaticResource ReadStatusConverter}}">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -150,21 +155,24 @@
                     </TextBlock.Style>
                 </TextBlock>
 
+                <!-- 메시지 시간 -->
                 <TextBlock Text="{Binding Timestamp, StringFormat=tt h:mm}"
-                   FontSize="10"
-                   Foreground="Gray"
-                   HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
-                   Margin="6,2,6,0"/>
+                           FontSize="10"
+                           Foreground="Gray"
+                           HorizontalAlignment="{Binding IsMine, Converter={StaticResource BoolToAlign}}"
+                           Margin="6,2,6,0"/>
             </StackPanel>
         </DataTemplate>
-
+        <!-- 파일 메시지 템플릿 끝 -->
+        
         <!-- 템플릿 선택자 -->
         <helpers:MessageTemplateSelector x:Key="MessageTemplateSelector"
                                          TextTemplate="{StaticResource TextTemplate}"
                                          FileTemplate="{StaticResource FileTemplate}"
                                          DateTemplate="{StaticResource DateTemplate}"/>
     </Window.Resources>
-
+    <!-- 리소스 끝 -->
+    
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
@@ -176,10 +184,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- 유저 목록 -->
+        <!-- 유저 목록 영역 -->
         <StackPanel Grid.Column="0" Grid.RowSpan="3">
             <TextBlock Text="유저 목록" FontWeight="Bold" FontSize="16" Margin="5"/>
 
+            <!-- 유저 검색창 -->
             <TextBox x:Name="UserSearchBox"
                      Text="유저 검색"
                      Foreground="Gray"
@@ -187,21 +196,29 @@
                      GotFocus="ClearPlaceholder"
                      LostFocus="RestorePlaceholder"
                      Margin="5,0" Height="26" FontSize="13"/>
+            <!-- 유저 검색창 끝 -->
 
+            <!-- 전체/접속중 필터 버튼 -->
             <StackPanel Orientation="Horizontal" Margin="5,5,5,10">
-                <Button Content="전체" Width="70" Margin="0,0,5,0"
+                <Button Content="전체" 
+                        Width="70" Margin="0,0,5,0"
                         Click="ShowAllUsers_Click" Background="#D6EAF8"/>
-                <Button Content="접속중" Width="70"
+                <Button Content="접속중" 
+                        Width="70"
                         Click="ShowOnlineUsers_Click" Background="#ABEBC6"/>
             </StackPanel>
-
+            <!-- 전체/접속중 필터 버튼 끝 -->
+            
+            <!-- 유저 리스트 -->
             <ListBox ItemsSource="{Binding FilteredUserList}"
                      SelectedItem="{Binding SelectedUser}"
                      FontSize="14" Margin="5"
                      BorderBrush="#DDD" BorderThickness="1"/>
+            <!-- 유저 리스트 끝 -->
         </StackPanel>
+        <!-- 유저 목록 영역 끝 -->
 
-        <!-- 메시지 검색창 -->
+        <!-- 메시지 검색창 영역 -->
         <TextBox x:Name="MessageSearchBox"
                  Grid.Column="1" Grid.Row="0"
                  Text="메시지 검색"
@@ -210,14 +227,17 @@
                  GotFocus="ClearPlaceholder"
                  LostFocus="RestorePlaceholder"
                  Margin="0,0,0,10" Height="26" FontSize="13"/>
-
+        <!-- 메시지 검색창 영역 끝 -->
+        
         <!-- 채팅 메시지 목록 -->
-        <ScrollViewer x:Name="scrollViewer" Grid.Column="1" Grid.Row="1"
+        <ScrollViewer x:Name="scrollViewer" 
+                      Grid.Column="1" Grid.Row="1"
                       VerticalScrollBarVisibility="Auto" Margin="5,0,0,0">
             <ItemsControl ItemsSource="{Binding FilteredMessages}"
                           ItemTemplateSelector="{StaticResource MessageTemplateSelector}"/>
         </ScrollViewer>
-
+        <!-- 채팅 메시지 목록 끝 -->
+        
         <!-- 입력창 + 상대 타이핑 텍스트 -->
         <StackPanel Grid.Row="2" Grid.Column="1" Margin="5,10,0,0">
 
@@ -228,8 +248,9 @@
                Foreground="Gray"
                Margin="0,0,0,4"
                Visibility="{Binding IsOpponentTyping, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <!-- 타이핑 상태 표시 끝 -->
 
-            <!-- 원래 입력창 그리드 -->
+            <!-- 입력창/타이핑/버튼 영역  -->
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -237,27 +258,35 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
+                <!-- 채팅 입력창 -->
                 <TextBox x:Name="InputBox"
-                 Grid.Column="0" Height="34"
-                 Margin="0,0,5,0"
-                 Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"
-                 FontSize="14" Padding="5"
-                 AllowDrop="True"
-                 PreviewDragOver="InputBox_PreviewDragOver"
-                 Drop="InputBox_Drop"/>
+                         Grid.Column="0" Height="34"
+                         Margin="0,0,5,0"
+                         Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"
+                         FontSize="14" Padding="5"
+                         AllowDrop="True"
+                         PreviewDragOver="InputBox_PreviewDragOver"
+                         Drop="InputBox_Drop"/>
+                <!-- 채팅 입력창 끝 -->
 
+                <!-- 메시지 보내기 버튼 -->
                 <Button Grid.Column="1" Content="보내기"
-                Command="{Binding SendCommand}"
-                Margin="0,0,5,0" Padding="15,0"
-                Height="34" MinWidth="80" Background="#5DADE2" Foreground="White"/>
+                        Command="{Binding SendCommand}"
+                        Margin="0,0,5,0" Padding="15,0"
+                        Height="34" MinWidth="80" Background="#5DADE2" Foreground="White"/>
+                <!-- 메시지 보내기 버튼 끝 -->
 
+                <!-- 파일 첨부 버튼 -->
                 <Button Grid.Column="2" Content="파일"
-                Command="{Binding SendFileCommand}"
-                Padding="15,0"
-                Height="34" MinWidth="80" Background="#A569BD" Foreground="White"/>
+                        Command="{Binding SendFileCommand}"
+                        Padding="15,0"
+                        Height="34" MinWidth="80" Background="#A569BD" Foreground="White"/>
+                <!-- 파일 첨부 버튼 끝 -->
             </Grid>
+            <!-- 입력/버튼 그리드 끝 -->
         </StackPanel>
-
+        <!-- 입력창/타이핑/버튼 영역 끝  -->
+        
         <!-- 연결 끊김 시 오버레이 -->
         <Grid Background="#80000000"
               Visibility="{Binding IsConnected, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}"
@@ -272,6 +301,7 @@
                 <ProgressBar Width="200" Height="20" IsIndeterminate="True"/>
             </StackPanel>
         </Grid>
+        <!-- 연결 끊김 시 오버레이 끝 -->
 
     </Grid>
 </Window>

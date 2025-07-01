@@ -4,6 +4,7 @@
         Title="회원가입" Height="270" Width="300"
         WindowStartupLocation="CenterScreen">
 
+    <!-- 회원가입 창 메인 그리드 -->
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -12,22 +13,31 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- 아이디 입력 영역 -->
         <StackPanel Grid.Row="0" Margin="0,0,0,10">
             <Label Content="아이디"/>
             <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
+        <!-- 아이디 입력 영역 끝 -->
 
+        <!-- 비밀번호 입력 영역 -->
         <StackPanel Grid.Row="1" Margin="0,0,0,10">
             <Label Content="비밀번호"/>
             <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
         </StackPanel>
+        <!-- 비밀번호 입력 영역 끝 -->
 
+        <!-- 비밀번호 확인 입력 영역 -->
         <StackPanel Grid.Row="2" Margin="0,0,0,10">
             <Label Content="비밀번호 확인"/>
             <PasswordBox PasswordChanged="ConfirmPasswordBox_PasswordChanged"/>
         </StackPanel>
+        <!-- 비밀번호 확인 입력 영역 끝 -->
 
+        <!-- 가입하기 버튼 -->
         <Button Grid.Row="3" Content="가입하기" Width="100" Height="30"
                 HorizontalAlignment="Center" Command="{Binding RegisterCommand}"/>
+        <!-- 가입하기 버튼 끝 -->
     </Grid>
+    <!-- 회원가입 창 메인 그리드 끝 -->
 </Window>
