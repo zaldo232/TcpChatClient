@@ -73,3 +73,4 @@
 ---
 
 ## 아키텍처
+![아키텍쳐](Screenshots/ChatArchitecture.png)
