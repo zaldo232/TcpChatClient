@@ -74,3 +74,16 @@
 
 ## 아키텍처
 ![아키텍쳐](Screenshots/ChatArchitecture.png)
+
+### 전체 구조
+```plaintext
+TcpChatClient/
+├─ Models/               # ChatMessage, ChatPacket, ClientSocket 등 채팅 데이터/네트워크
+├─ Services/             # ChatService, ChatPacketHandler (비즈니스 로직/분기)
+├─ Helpers/              # AesEncryption, MessageTemplateSelector 등 유틸/헬퍼
+├─ Converters/           # WPF 바인딩 컨버터 (BoolToBrush 등)
+├─ ViewModels/           # MainViewModel, LoginViewModel, RegisterViewModel, RelayCommand
+├─ Views/                # MainWindow, LoginWindow, RegisterWindow (XAML, 코드비하인드)
+├─ Resources/            # 이미지, 아이콘, 스타일
+├─ App.xaml(.cs)         # 앱 진입점, 글로벌 리소스
+└─ ...                   # 기타 설정/리소스
