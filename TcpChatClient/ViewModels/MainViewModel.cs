@@ -214,7 +214,8 @@ namespace TcpChatClient.ViewModels
                     // 선택중 채팅방이면 바로 추가
                     if ((msg.Sender == _selectedUser && msg.Receiver == Nickname) || (msg.Sender == Nickname && msg.Receiver == _selectedUser))
                     {
-                        FilteredMessages.Add(msg);
+                        RefreshFilteredMessages();
+                        //FilteredMessages.Add(msg);
                     }
 
                     // 본인 아닌 상대방이 나한테 보낸 메시지면 안읽음 카운트 증가
@@ -312,11 +313,9 @@ namespace TcpChatClient.ViewModels
         private void DeleteMessage(ChatMessage msg)
         {
             if (msg == null || msg.IsDeleted || msg.IsRead) return;
-            msg.Message = "삭제된 메시지입니다";
-            msg.IsDeleted = true;
+            // 삭제 요청만 서버로 전송, UI는 변경하지 않는다
             _ = _chatService.SendDeleteAsync(msg);
-            RefreshFilteredMessages();
-            OnPropertyChanged(nameof(FilteredMessages));
+            // UI 반영은 handleDeleteNotify에서만
         }
 
         // 파일 다운로드 요청
